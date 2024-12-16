@@ -1,1 +1,26 @@
-# ZTube is the short form of Zigla's YouTube Downloader. It is a desktop application fully built in python, which allows users to search for youtube videos either using the url of the video or by using the title or keyword of the video. It allows the user to select the video to be download and specify the desired resolution and file size and also change the location where the video is to be saved.
+# ZTube - Zigla's YouTube Downloader
+
+ZTube is a simple and user-friendly YouTube video downloader built with Python and Tkinter. It allows users to search for YouTube videos(by using video url or title), select the video quality, and download the video directly to their computer.
+
+## Features
+
+- Search for YouTube videos using keywords.
+- Display video thumbnails alongside titles.
+- Select download quality (e.g., 720p, 1080p).
+- Download videos to a user-specified location.
+- Track download progress with a progress bar.
+
+## Technologies Used
+
+- Python
+- Tkinter (for GUI)
+- `pytubefix` (for downloading videos)
+- `requests` (for handling HTTP requests)
+
+## Requirements
+
+Before running ZTube, make sure to install the following Python packages:
+
+```bash
+pip install pytubefix
+pip install requests
