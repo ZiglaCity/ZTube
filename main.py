@@ -76,17 +76,21 @@ def create_gui():
             
         return url
         
-    suggestion_frame = tk.Frame(root)
-    suggestion_frame.pack( fill=tk.BOTH, expand=True)
+    suggestion_frame = tk.Frame(root, height=450, width=window_width)
+    suggestion_frame.pack(pady=10, fill=None, expand=False)
+    suggestion_frame.pack_propagate(False)
 
-    canvas = tk.Canvas(suggestion_frame, width=20, height=7)
-    canvas.pack(side=tk.LEFT,fill = tk.BOTH,  expand=True)
+    canvas = tk.Canvas(suggestion_frame, height=300, width=window_width - 20)
+    canvas.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
 
     scrollbar = ttk.Scrollbar(suggestion_frame, orient=tk.VERTICAL, command=canvas.yview)
     scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
 
     canvas.configure(yscrollcommand=scrollbar.set)
     canvas.bind("<Configure>", lambda e: canvas.configure(scrollregion=canvas.bbox("all")))
+
+    inner_frame = tk.Frame(canvas)
+    canvas.create_window((0, 0), window=inner_frame, anchor='nw')
 
 
     download_frame = tk.Frame(root)
@@ -114,11 +118,12 @@ def create_gui():
     download_folder_entry.pack(side="right")
 
     download_button = tk.Button(root, text="DOWNLOAD")
-    download_button.pack(pady=10)
+    download_button.pack(pady=20)
 
     progress_bar = ttk.Progressbar(root, orient='horizontal', length=300, mode='determinate')
-    progress_bar.pack(pady=5)
+    progress_bar.pack(pady=10)
 
+    
 
     root.mainloop()
 
