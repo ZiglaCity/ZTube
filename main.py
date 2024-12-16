@@ -2,6 +2,9 @@ import tkinter as tk
 from tkinter import filedialog
 from tkinter import ttk, messagebox
 from googleapiclient.discovery import build
+from io import BytesIO
+import requests
+from PIL import Image, ImageTk
 
 
 window_height = 730
@@ -12,19 +15,86 @@ with open("api_key.txt", 'r') as key:
     API_KEY = key.read()
 
 def search_videos(query):
-    youtube = build('youtube', 'v3', developerKey=API_KEY)
-    request = youtube.search().list(
-        q=query,
-        part='snippet',
-        type='video',
-        maxResults=10
-    )
-    response = request.execute()
-    return [{'title': item['snippet']['title'], 
-             'videoId': item['id']['videoId'], 
-             'thumbnail': item['snippet']['thumbnails']['default']['url']} 
-            for item in response['items']]
+    try:
+        youtube = build('youtube', 'v3', developerKey=API_KEY)
+        request = youtube.search().list(
+            q=query,
+            part='snippet',
+            type='video',
+            maxResults=10
+        )
+        response = request.execute()
+        return [{'title': item['snippet']['title'], 
+                'videoId': item['id']['videoId'], 
+                'thumbnail': item['snippet']['thumbnails']['default']['url']} 
+                for item in response['items']]
+    except Exception as e:
+        print(e)
+        messagebox.showinfo("Sorry!", "Failed to connect!")
 
+
+
+def update_suggestions():
+    query = search_entry.get()
+
+    if query:
+        videos = search_videos(query)
+        canvas.delete("all") 
+        video_urls.clear()
+
+        y_position = 10
+        images = [] 
+
+        def apply_selection_style(canvas, selected_tag):
+            for index in range(len(videos)):
+                text_tag = f"text_{index}"
+                if theme_var.get():    
+                    canvas.itemconfig(text_tag, font=("Helvetica", 10), fill="white")
+                else:
+                    canvas.itemconfig(text_tag, font=("Helvetica", 10), fill="black")
+
+            canvas.itemconfig(selected_tag, font=("Helvetica", 10, "bold"), fill="blue")
+
+        for index, video in enumerate(videos):
+            video_id = video['videoId']
+            video_url = f"https://www.youtube.com/watch?v={video_id}" 
+            video_urls.append(video_url)  
+            thumbnail_url = video['thumbnail']
+            response = requests.get(thumbnail_url)
+
+            if response.status_code == 200:
+                img_data = Image.open(BytesIO(response.content))
+                img_data = img_data.resize((120, 90), Image.Resampling.LANCZOS)  # Resize thumbnail
+                img = ImageTk.PhotoImage(img_data)
+                images.append(img)  
+
+                image_item = canvas.create_image(10, y_position, anchor=tk.NW, image=img)
+                text_item = canvas.create_text(140, y_position + 30, anchor=tk.NW, text=video['title'], font=("Helvetica", 10), fill="black")
+
+                image_tag = f"image_{index}"
+                text_tag = f"text_{index}"
+
+                canvas.itemconfig(image_item, tags=image_tag)
+                canvas.itemconfig(text_item, tags=text_tag)
+
+                canvas.tag_bind(image_tag, "<Button-1>", lambda e, url=video_url, tag=text_tag: [on_video_click(url), apply_selection_style(canvas, tag)])
+                canvas.tag_bind(text_tag, "<Button-1>", lambda e, url=video_url, tag=text_tag: [on_video_click(url), apply_selection_style(canvas, tag)])
+
+                y_position += 100
+
+            else:
+                print(f"Failed to load image from {thumbnail_url}")
+
+        canvas.image_list = images
+
+    canvas.config(scrollregion=canvas.bbox("all"))
+
+
+def on_video_click(url):
+    global selected_video_url
+    selected_video_url = url    
+    # Call function to update combobox with quality options based on the selected video
+    # update_quality_options(url)
 
 def create_gui():
     global root
@@ -61,7 +131,7 @@ def create_gui():
     search_frame = tk.Frame(root)
     search_frame.pack(pady=5)
 
-    search_button = tk.Button(search_frame, text="🔍")
+    search_button = tk.Button(search_frame, text="🔍", command=update_suggestions)
     search_button.pack(side='left')
     search_entry = tk.Entry(search_frame, width=70)
     search_entry.pack(side="right")
