@@ -127,6 +127,22 @@ def update_quality_options(url):
         messagebox.showerror("Error", str(e))
 
 
+def add_placeholder(entry, placeholder_text):
+    entry.insert(0, placeholder_text)
+    entry.config(fg='grey') 
+
+    def on_focus_in(event):
+        if entry.get() == placeholder_text:
+            entry.delete(0, tk.END)
+            entry.config(fg='black')
+
+    def on_focus_out(event):
+        if not entry.get():  
+            entry.insert(0, placeholder_text)
+            entry.config(fg='grey')
+
+    entry.bind("<FocusIn>", on_focus_in)
+    entry.bind("<FocusOut>", on_focus_out)
 
 def create_gui():
     global root
@@ -167,6 +183,8 @@ def create_gui():
     search_button.pack(side='left')
     search_entry = tk.Entry(search_frame, width=70)
     search_entry.pack(side="right")
+
+    add_placeholder(search_entry, "Input video url or title...")
 
 
     def select_video(event = None):
