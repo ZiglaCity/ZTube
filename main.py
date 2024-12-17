@@ -161,10 +161,6 @@ def create_gui():
     status_label = tk.Label(mode_frame, text="Checking...", font=('Helvetica', 12))
     status_label.pack(side="left")
 
-
-    info_label = tk.Label(info_frame, text="Input Video URL/Title")
-    info_label.pack(side="left", padx=155)
-
     theme_frame = tk.Frame(info_frame)
     theme_frame.pack(side="right")
 
