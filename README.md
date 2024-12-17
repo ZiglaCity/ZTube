@@ -4,7 +4,7 @@ ZTube is a simple and user-friendly YouTube video downloader built with Python a
 
 ## Features
 
-- Search for YouTube videos using keywords.
+- Search for YouTube videos using keywords or video url.
 - Display video thumbnails alongside titles.
 - Select download quality (e.g., 720p, 1080p).
 - Download videos to a user-specified location.
