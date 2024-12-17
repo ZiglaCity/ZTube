@@ -6,11 +6,13 @@ from pytubefix import YouTube
 from io import BytesIO
 import requests
 from PIL import Image, ImageTk
+from pathlib import Path
 
 
 window_height = 730
 window_width = 650
 video_urls = []
+download_path = str(Path.home() / "Downloads")
 
 with open("api_key.txt", 'r') as key:
     API_KEY = key.read()
@@ -137,7 +139,7 @@ def add_placeholder(entry, placeholder_text):
             entry.config(fg='black')
 
     def on_focus_out(event):
-        if not entry.get():  
+        if not entry.get().strip():  
             entry.insert(0, placeholder_text)
             entry.config(fg='grey')
 
@@ -247,7 +249,7 @@ def openSearchedResults():
     download_folder_button.pack(side="left")
 
     path = tk.StringVar()
-    path.set("")
+    path.set(download_path)
 
     download_folder_entry = tk.Entry(download_settings_frame, textvariable=path, width=25, state='readonly') 
     download_folder_entry.pack(side="right")
