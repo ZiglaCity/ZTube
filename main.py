@@ -106,8 +106,6 @@ def on_video_click(url):
 
 
 def update_quality_options(url):
-    global quality_combobox
-
     try:
         if not url:
             raise ValueError("No video URL provided.")
@@ -127,6 +125,59 @@ def update_quality_options(url):
 
     except Exception as e:
         messagebox.showerror("Error", str(e))
+
+
+def download():
+    global selected_video_url, path, quality_combobox, progress_bar, root
+
+    try:
+        selected_quality = quality_combobox.get()
+        if not selected_quality:
+            raise ValueError("No quality selected.")
+
+        resolution = selected_quality.split(" - ")[0]
+        url = selected_video_url 
+
+        if not url:
+            raise ValueError("No video URL selected.")
+
+        if progress_bar is None:
+            progress_bar = ttk.Progressbar(root, orient="horizontal", length=300, mode="determinate")
+            progress_bar.pack(pady=10)
+        else:
+            progress_bar['value'] = 0
+
+        yt = YouTube(url, on_progress_callback=on_progress)
+
+        # Find the stream that matches the selected resolution
+        stream = yt.streams.filter(res=resolution, progressive=True, file_extension='mp4').first()
+        if not stream:
+            raise ValueError(f"No stream found for resolution {resolution}.")
+
+        path = download_folder_entry.get()
+        if path:
+            download_path = str(path)
+        stream.download(output_path=download_path)
+
+        messagebox.showinfo("Success", f"Video downloaded successfully to {download_path}")
+        
+        progress_bar['value'] = 0
+
+    except Exception as e:
+        messagebox.showerror("Error", f"Failed to download video: {e}")
+        progress_bar['value'] = 0 
+        progress_label.config(text=f"{0:.2f}% downloaded")
+
+
+
+def on_progress(stream, chunk, bytes_remaining):
+    total_size = stream.filesize
+    bytes_downloaded = total_size - bytes_remaining
+    percentage = (bytes_downloaded / total_size) * 100
+
+    progress_bar['value'] = percentage
+    progress_label.config(text=f"{percentage:.2f}% downloaded")
+    root.update_idletasks()
 
 
 def add_placeholder(entry, placeholder_text):
@@ -202,7 +253,7 @@ def openSearchedResults():
     for widget in root.winfo_children():
         widget.destroy()
 
-    global download_folder_entry, canvas,status_label,canvas, theme_var, select_video,progress_bar, path,canvas, quality_combobox, search_entry
+    global download_folder_entry, progress_label, canvas,status_label,canvas, theme_var, select_video,progress_bar, path,canvas, quality_combobox, search_entry
 
     def select_video(event = None):
         global url
@@ -254,12 +305,13 @@ def openSearchedResults():
     download_folder_entry = tk.Entry(download_settings_frame, textvariable=path, width=25, state='readonly') 
     download_folder_entry.pack(side="right")
 
-    download_button = tk.Button(root, text="DOWNLOAD")
+    download_button = tk.Button(root, text="DOWNLOAD", command=download)
     download_button.pack(pady=20)
 
     progress_bar = ttk.Progressbar(root, orient='horizontal', length=300, mode='determinate')
     progress_bar.pack(pady=10)
-        
 
+    progress_label = tk.Label(root, text="0.00% downloaded")
+    progress_label.pack()
 
 create_gui()
