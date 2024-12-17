@@ -25,6 +25,7 @@ def search_videos(query):
             maxResults=10
         )
         response = request.execute()
+        print(f"response found: {response}")
         return [{'title': item['snippet']['title'], 
                 'videoId': item['id']['videoId'], 
                 'thumbnail': item['snippet']['thumbnails']['default']['url']} 
@@ -32,7 +33,7 @@ def search_videos(query):
     except Exception as e:
         print(e)
         messagebox.showinfo("Sorry!", "Failed to connect!")
-
+        return 
 
 
 def update_suggestions():
@@ -40,6 +41,10 @@ def update_suggestions():
 
     if query:
         videos = search_videos(query)
+        print(f"videos found are: {videos}")
+        if not videos:
+            return
+        openSearchedResults()
         canvas.delete("all") 
         video_urls.clear()
 
@@ -85,8 +90,9 @@ def update_suggestions():
 
             else:
                 print(f"Failed to load image from {thumbnail_url}")
-
-        canvas.image_list = images
+    else:
+        return messagebox.showinfo("Error", "Please input to search!")
+    canvas.image_list = images
 
     canvas.config(scrollregion=canvas.bbox("all"))
 
@@ -172,6 +178,25 @@ def create_gui():
             
         return url
         
+    
+    root.mainloop()
+
+
+def openSearchedResults():
+    for widget in root.winfo_children():
+        widget.destroy()
+
+    global download_folder_entry, canvas,status_label,canvas, theme_var, select_video,progress_bar, path,canvas, quality_combobox, search_entry
+
+    def select_video(event = None):
+        global url
+        selection = "canvas.curselection()"
+        if selection:
+            index = selection[0]
+            url = video_urls[index]
+            
+        return url
+        
     suggestion_frame = tk.Frame(root, height=450, width=window_width)
     suggestion_frame.pack(pady=10, fill=None, expand=False)
     suggestion_frame.pack_propagate(False)
@@ -218,10 +243,7 @@ def create_gui():
 
     progress_bar = ttk.Progressbar(root, orient='horizontal', length=300, mode='determinate')
     progress_bar.pack(pady=10)
-
-    
-
-    root.mainloop()
+        
 
 
 create_gui()
