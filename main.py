@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import filedialog
 from tkinter import ttk, messagebox
 from googleapiclient.discovery import build
+from pytubefix import YouTube
 from io import BytesIO
 import requests
 from PIL import Image, ImageTk
@@ -93,8 +94,33 @@ def update_suggestions():
 def on_video_click(url):
     global selected_video_url
     selected_video_url = url    
-    # Call function to update combobox with quality options based on the selected video
-    # update_quality_options(url)
+    update_quality_options(url)
+
+
+def update_quality_options(url):
+    global quality_combobox
+
+    try:
+        if not url:
+            raise ValueError("No video URL provided.")
+        yt = YouTube(url)
+        streams = yt.streams.filter(progressive=True, file_extension='mp4')
+
+        if not streams:
+            raise ValueError("No available streams found.")
+
+        quality_options = [f"{stream.resolution} - {stream.filesize // (1024 * 1024)} MB" for stream in streams]
+        quality_combobox['values'] = quality_options
+
+        if quality_options:
+            quality_combobox.current(0)
+        else:
+            raise ValueError("No quality options available.")
+
+    except Exception as e:
+        messagebox.showerror("Error", str(e))
+
+
 
 def create_gui():
     global root
