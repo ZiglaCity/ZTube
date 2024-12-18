@@ -46,7 +46,7 @@ def update_suggestions():
         print(f"videos found are: {videos}")
         if not videos:
             return
-        openSearchedResults()
+        openSearchedResults(query)
         canvas.delete("all") 
         video_urls.clear()
 
@@ -224,7 +224,7 @@ def create_gui():
     search_entry = tk.Entry(search_frame, width=80)
     search_entry.grid(row=0, column=0, sticky="ew", padx=(50, 0))  # Adjust padding for alignment
 
-    settings_button = tk.Button(search_frame, text="⚙️", command=update_suggestions)
+    settings_button = tk.Button(search_frame, text="⚙️", command=openSettings)
     settings_button.grid(row=0, column=1, sticky="e", padx=5)
 
     mode_frame = tk.Frame(root, width=2)
@@ -269,7 +269,9 @@ def openSettings():
 
     # create_back_button(root, command=returnToMain)
 
-def openSearchedResults():
+
+
+def openSearchedResults(searched):
     for widget in root.winfo_children():
         widget.destroy()
 
@@ -283,7 +285,10 @@ def openSearchedResults():
             url = video_urls[index]
             
         return url
-        
+    
+    searched_label = tk.Label(text=f"Searched result for: {searched}")
+    searched_label.pack()
+
     suggestion_frame = tk.Frame(root, height=450, width=window_width)
     suggestion_frame.pack(pady=10, fill=None, expand=False)
     suggestion_frame.pack_propagate(False)
