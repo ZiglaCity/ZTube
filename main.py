@@ -9,7 +9,7 @@ from PIL import Image, ImageTk
 from pathlib import Path
 
 
-window_height = 730
+window_height = 700
 window_width = 650
 video_urls = []
 download_path = str(Path.home() / "Downloads")
@@ -205,16 +205,29 @@ def create_gui():
 
     global download_folder_entry, canvas,status_label,canvas, theme_var, select_video,progress_bar, path,canvas, quality_combobox, search_entry
  
-    info_frame = tk.Frame(root)
-    info_frame.pack(pady=3)
+    
+    search_frame = tk.Frame(root)
+    search_frame.pack(fill="x", padx=10, pady=10)
 
-    mode_frame = tk.Frame(info_frame, width=2)
+    search_frame.columnconfigure(0, weight=1)  
+    search_frame.columnconfigure(1, weight=0)
+
+    search_button = tk.Button(search_frame, text="Search", command=update_suggestions)
+    search_button.grid(row=0, column=0, sticky="w")
+
+    search_entry = tk.Entry(search_frame, width=80)
+    search_entry.grid(row=0, column=0, sticky="ew", padx=(50, 0))  # Adjust padding for alignment
+
+    settings_button = tk.Button(search_frame, text="⚙️", command=update_suggestions)
+    settings_button.grid(row=0, column=1, sticky="ne", padx=5)
+
+    mode_frame = tk.Frame(root, width=2)
     mode_frame.pack(side="left")
 
-    status_label = tk.Label(mode_frame, text="Checking...", font=('Helvetica', 12))
-    status_label.pack(side="left")
+    status_label = tk.Label(root, text="No connection available...", font=('Helvetica', 12))
+    status_label.pack(side="bottom")
 
-    theme_frame = tk.Frame(info_frame)
+    theme_frame = tk.Frame(root)
     theme_frame.pack(side="right")
 
     theme_var = tk.BooleanVar()
@@ -223,15 +236,10 @@ def create_gui():
     theme_label.pack(side="left")
 
     theme_checkbutton = tk.Checkbutton(theme_frame, variable=theme_var)
-    theme_checkbutton.pack(side="right")
+    theme_checkbutton.pack(side="left")
+        
 
-    search_frame = tk.Frame(root)
-    search_frame.pack(pady=5)
 
-    search_button = tk.Button(search_frame, text="🔍", command=update_suggestions)
-    search_button.pack(side='left')
-    search_entry = tk.Entry(search_frame, width=70)
-    search_entry.pack(side="right")
 
     add_placeholder(search_entry, "Input video url or title...")
 
