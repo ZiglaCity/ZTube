@@ -203,7 +203,6 @@ def create_back_button(parent, command):
     back_button.pack(anchor="nw", padx=10, pady=10)
     return back_button
 
-
 def create_gui():
     global root
     root = tk.Tk()
@@ -268,6 +267,11 @@ def openSettings():
     for widget in root.winfo_children():
         widget.destroy()
 
+    # create_back_button(root, command=returnToMain)
+
+def openSearchedResults():
+    for widget in root.winfo_children():
+        widget.destroy()
 
     global download_folder_entry, progress_label, canvas,status_label,canvas, theme_var, select_video,progress_bar, path,canvas, quality_combobox, search_entry
 
