@@ -361,7 +361,7 @@ def openSettings():
 
     email_link = tk.Label(contact_frame, text="Email", fg="blue", cursor="hand2")
     email_link.pack(side="left", padx=5)
-    email_link.bind("<Button-1>", lambda e: open_link("mailto:ziglacity@example.com"))
+    email_link.bind("<Button-1>", lambda e: open_link("mailto:ziglacity@gmail.com"))
 
 
     def save_settings():
