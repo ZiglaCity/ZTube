@@ -169,6 +169,14 @@ def download():
         progress_label.config(text=f"{0:.2f}% downloaded")
 
 
+def select_save_location():
+    global save_path, download_folder_entry, path 
+    save_path = filedialog.askdirectory()
+    download_folder_entry.config(state="normal")
+    path.set("")
+    path.set(save_path)
+    download_folder_entry.config(state='readonly')
+    return path
 
 def on_progress(stream, chunk, bytes_remaining):
     total_size = stream.filesize
@@ -267,7 +275,60 @@ def openSettings():
     for widget in root.winfo_children():
         widget.destroy()
 
-    # create_back_button(root, command=returnToMain)
+    global download_folder_entry, download_path, path
+
+    def returnToMain():
+        print("Returning to main page...")
+
+    create_back_button(root, returnToMain)
+
+    header_label = tk.Label(root, text="Settings")
+    header_label.pack()
+
+    theme_label = tk.Label(root, text="Theme:")
+    theme_label.pack(anchor="w")
+
+    theme_var = tk.StringVar(value="Light")
+    theme_frame = tk.Frame(root)
+    theme_frame.pack(anchor="w")
+
+    light_theme = tk.Radiobutton(theme_frame, text="Light", variable=theme_var, value="Light")
+    dark_theme = tk.Radiobutton(theme_frame, text="Dark", variable=theme_var, value="Dark")
+    light_theme.pack(side="left")
+    dark_theme.pack(side="left")
+
+    directory_label = tk.Label(root, text="Default Directory:")
+    directory_label.pack(anchor="w")
+
+    download_frame = tk.Frame(root)
+    download_frame.pack(anchor="w")
+
+    path = tk.StringVar()
+    path.set(download_path)
+
+    download_folder_button = tk.Button(download_frame, text="Save", command=select_save_location)
+    download_folder_button.pack(side="left")
+
+    download_folder_entry = tk.Entry(download_frame, textvariable=path, width=40, state='readonly')
+    download_folder_entry.pack(side="left")
+
+    about_label = tk.Label(root, text="About the Author:")
+    about_label.pack(anchor="w")
+
+    about_text = tk.Label(
+        root,
+        text="Zigla City\nA passionate developer exploring tech, programming, and AI.",
+        justify="left"
+    )
+    about_text.pack(anchor="w")
+
+    def save_settings():
+        print(f"Theme: {theme_var.get()}")
+        print(f"Default Directory: {download_folder_entry.get()}")
+
+    save_button = tk.Button(root, text="Save Settings", command=save_settings)
+    save_button.pack()
+
 
 
 
