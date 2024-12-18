@@ -197,6 +197,13 @@ def add_placeholder(entry, placeholder_text):
     entry.bind("<FocusIn>", on_focus_in)
     entry.bind("<FocusOut>", on_focus_out)
 
+
+def create_back_button(parent, command):
+    back_button = tk.Button(parent, text="⬅ Back", command=command)
+    back_button.pack(anchor="nw", padx=10, pady=10)
+    return back_button
+
+
 def create_gui():
     global root
     root = tk.Tk()
@@ -219,7 +226,7 @@ def create_gui():
     search_entry.grid(row=0, column=0, sticky="ew", padx=(50, 0))  # Adjust padding for alignment
 
     settings_button = tk.Button(search_frame, text="⚙️", command=update_suggestions)
-    settings_button.grid(row=0, column=1, sticky="ne", padx=5)
+    settings_button.grid(row=0, column=1, sticky="e", padx=5)
 
     mode_frame = tk.Frame(root, width=2)
     mode_frame.pack(side="left")
@@ -257,9 +264,10 @@ def create_gui():
     root.mainloop()
 
 
-def openSearchedResults():
+def openSettings():
     for widget in root.winfo_children():
         widget.destroy()
+
 
     global download_folder_entry, progress_label, canvas,status_label,canvas, theme_var, select_video,progress_bar, path,canvas, quality_combobox, search_entry
 
