@@ -315,12 +315,54 @@ def openSettings():
     about_label = tk.Label(root, text="About the Author:")
     about_label.pack(anchor="w")
 
-    about_text = tk.Label(
+    about_app_label = tk.Label(root, text="About the App:")
+    about_app_label.pack(anchor="w", pady=(10, 0))
+
+    about_app_text = tk.Label(
         root,
-        text="Zigla City\nA passionate developer exploring tech, programming, and AI.",
-        justify="left"
+        text="ZTube is a simple and intuitive YouTube video downloader. It allows users to search, "
+             "preview, and download videos directly from YouTube. With features like quality selection, "
+             "progress tracking, and more, ZTube makes downloading content seamless and efficient.",
+        justify="left",
+        wraplength=500
     )
-    about_text.pack(anchor="w")
+    about_app_text.pack(anchor="w")
+
+    about_author_label = tk.Label(root, text="About the Author:")
+    about_author_label.pack(anchor="w", pady=(10, 0))
+
+    about_author_text = tk.Label(
+        root,
+        text="Zigla City\nA passionate developer exploring tech, Programming, Cybersecurity and AI. Zigla is enthusiastic "
+             "about creating innovative solutions that simplify everyday tasks. My expertise spans "
+             "Python development, GUI design, and AI integration.",
+        justify="left",
+        wraplength=500
+    )
+    about_author_text.pack(anchor="w")
+
+    contact_label = tk.Label(root, text="Contact the Developer:")
+    contact_label.pack(anchor="w", pady=(10, 0))
+
+    def open_link(url):
+        import webbrowser
+        webbrowser.open_new(url)
+
+    contact_frame = tk.Frame(root)
+    contact_frame.pack(anchor="w")
+
+    github_link = tk.Label(contact_frame, text="GitHub", fg="blue", cursor="hand2")
+    github_link.pack(side="left", padx=5)
+    github_link.bind("<Button-1>", lambda e: open_link("https://github.com/ziglacity"))
+
+    linkedin_link = tk.Label(contact_frame, text="LinkedIn", fg="blue", cursor="hand2")
+    linkedin_link.pack(side="left", padx=5)
+    linkedin_link.bind("<Button-1>", lambda e: open_link("https://linkedin.com/in/ziglacity"))
+
+    email_link = tk.Label(contact_frame, text="Email", fg="blue", cursor="hand2")
+    email_link.pack(side="left", padx=5)
+    email_link.bind("<Button-1>", lambda e: open_link("mailto:ziglacity@example.com"))
+
 
     def save_settings():
         print(f"Theme: {theme_var.get()}")
