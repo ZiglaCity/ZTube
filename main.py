@@ -157,9 +157,6 @@ def download():
         if not stream:
             raise ValueError(f"No stream found for resolution {resolution}.")
 
-        path = download_folder_entry.get()
-        if path:
-            download_path = str(path)
         stream.download(output_path=download_path)
 
         messagebox.showinfo("Success", f"Video downloaded successfully to {download_path}")
@@ -173,11 +170,12 @@ def download():
 
 
 def select_save_location():
-    global save_path, download_folder_entry, path 
+    global save_path, download_folder_entry, path, download_path
     save_path = filedialog.askdirectory()
     download_folder_entry.config(state="normal")
     path.set("")
     path.set(save_path)
+    download_path  = save_path
     download_folder_entry.config(state='readonly')
     return path
 
@@ -390,7 +388,7 @@ def openSearchedResults(searched):
 
     top_frame = tk.Frame(root)
     top_frame.pack(fill=tk.BOTH)
-    
+
     create_back_button(top_frame)
 
     searched_label = tk.Label(top_frame,text=f"Searched result for: {searched}")
@@ -427,15 +425,6 @@ def openSearchedResults(searched):
 
     download_settings_frame = tk.Frame(download_frame)
     download_settings_frame.pack(side="right", padx=25)
-
-    download_folder_button = tk.Button(download_settings_frame, text="💾 SAVE")
-    download_folder_button.pack(side="left")
-
-    path = tk.StringVar()
-    path.set(download_path)
-
-    download_folder_entry = tk.Entry(download_settings_frame, textvariable=path, width=25, state='readonly') 
-    download_folder_entry.pack(side="right")
 
     download_button = tk.Button(root, text="DOWNLOAD", command=download)
     download_button.pack(pady=20)
