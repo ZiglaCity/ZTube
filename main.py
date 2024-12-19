@@ -412,10 +412,10 @@ def openSearchedResults(searched):
 
 
     download_frame = tk.Frame(root)
-    download_frame.pack(pady=5)
+    download_frame.pack(pady=5, fill=tk.BOTH)
 
     resolution_frame = tk.Frame(download_frame)
-    resolution_frame.pack(side="left", padx=20)
+    resolution_frame.pack(side="top", padx=20)
 
     resolution_label = tk.Label(resolution_frame, text="Quality")
     resolution_label.pack(side="left")
@@ -423,11 +423,8 @@ def openSearchedResults(searched):
     quality_combobox = ttk.Combobox(resolution_frame, width=20)
     quality_combobox.pack(side='right')
 
-    download_settings_frame = tk.Frame(download_frame)
-    download_settings_frame.pack(side="right", padx=25)
-
-    download_button = tk.Button(root, text="DOWNLOAD", command=download)
-    download_button.pack(pady=20)
+    download_button = tk.Button(download_frame, text="DOWNLOAD", command=download)
+    download_button.pack(side="top", padx=50)
 
     progress_bar = ttk.Progressbar(root, orient='horizontal', length=300, mode='determinate')
     progress_bar.pack(pady=10)
