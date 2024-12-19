@@ -13,6 +13,9 @@ window_height = 700
 window_width = 650
 video_urls = []
 download_path = str(Path.home() / "Downloads")
+root = tk.Tk()
+root.geometry(f"{window_width}x{window_height}")
+root.title("Zigla's YouTube Downloader")
 
 with open("api_key.txt", 'r') as key:
     API_KEY = key.read()
@@ -211,15 +214,11 @@ def create_back_button(parent, command):
     back_button.pack(anchor="nw", padx=10, pady=10)
     return back_button
 
-def create_gui():
-    global root
-    root = tk.Tk()
-    root.geometry(f"{window_width}x{window_height}")
-    root.title("Zigla's YouTube Downloader")
 
+def create_gui():
+    
     global download_folder_entry, canvas,status_label,canvas, theme_var, select_video,progress_bar, path,canvas, quality_combobox, search_entry
  
-    
     search_frame = tk.Frame(root)
     search_frame.pack(fill="x", padx=10, pady=10)
 
@@ -443,6 +442,7 @@ def openSearchedResults(searched):
 
 def backToMain():
     for widget in root.winfo_children():
-        widget.destroy()
+        widget.destroy()      
+    create_gui()
 
 create_gui()
