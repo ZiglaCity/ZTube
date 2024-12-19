@@ -207,7 +207,7 @@ def add_placeholder(entry, placeholder_text):
 
 
 def create_back_button(parent, command):
-    back_button = tk.Button(parent, text="⬅ Back", command=command)
+    back_button = tk.Button(parent, text="⬅ Back", command=backToMain)
     back_button.pack(anchor="nw", padx=10, pady=10)
     return back_button
 
@@ -252,9 +252,6 @@ def create_gui():
     theme_checkbutton = tk.Checkbutton(theme_frame, variable=theme_var)
     theme_checkbutton.pack(side="left")
         
-
-
-
     add_placeholder(search_entry, "Input video url or title...")
 
 
@@ -441,5 +438,11 @@ def openSearchedResults(searched):
 
     progress_label = tk.Label(root, text="0.00% downloaded")
     progress_label.pack()
+
+
+
+def backToMain():
+    for widget in root.winfo_children():
+        widget.destroy()
 
 create_gui()
