@@ -210,9 +210,9 @@ def add_placeholder(entry, placeholder_text):
 
 
 def create_back_button(parent):
-    back_button = tk.Button(parent, text="⬅ Back", command=backToMain)
-    back_button.pack(anchor="nw", padx=10, pady=10)
-    return back_button
+    back_button = tk.Button(parent, text="⬅", command=backToMain)
+    back_button.pack(anchor="nw" , side='left')
+    # return back_button
 
 
 def create_gui():
@@ -271,12 +271,16 @@ def openSettings():
     for widget in root.winfo_children():
         widget.destroy()
 
+    root.title("ZTube-Settings")
+
     global download_folder_entry, download_path, path
 
-    create_back_button(root)
+    top_frame = tk.Frame(root)
+    top_frame.pack(fill=tk.BOTH)
+    create_back_button(top_frame)
 
-    header_label = tk.Label(root, text="Settings")
-    header_label.pack()
+    header_label = tk.Label(top_frame, text="Settings")
+    header_label.pack(side='top')
 
     theme_label = tk.Label(root, text="Theme:")
     theme_label.pack(anchor="w")
@@ -370,6 +374,8 @@ def openSettings():
 def openSearchedResults(searched):
     for widget in root.winfo_children():
         widget.destroy()
+    
+    root.title("Ztube-Search Result")
 
     global download_folder_entry, progress_label, canvas,status_label,canvas, theme_var, select_video,progress_bar, path,canvas, quality_combobox, search_entry
 
@@ -382,10 +388,13 @@ def openSearchedResults(searched):
             
         return url
 
-    create_back_button(root)
+    top_frame = tk.Frame(root)
+    top_frame.pack(fill=tk.BOTH)
     
-    searched_label = tk.Label(text=f"Searched result for: {searched}")
-    searched_label.pack()
+    create_back_button(top_frame)
+
+    searched_label = tk.Label(top_frame,text=f"Searched result for: {searched}")
+    searched_label.pack(side='top')
 
     suggestion_frame = tk.Frame(root, height=450, width=window_width)
     suggestion_frame.pack(pady=10, fill=None, expand=False)
