@@ -209,7 +209,7 @@ def add_placeholder(entry, placeholder_text):
     entry.bind("<FocusOut>", on_focus_out)
 
 
-def create_back_button(parent, command):
+def create_back_button(parent):
     back_button = tk.Button(parent, text="⬅ Back", command=backToMain)
     back_button.pack(anchor="nw", padx=10, pady=10)
     return back_button
@@ -273,10 +273,7 @@ def openSettings():
 
     global download_folder_entry, download_path, path
 
-    def returnToMain():
-        print("Returning to main page...")
-
-    create_back_button(root, returnToMain)
+    create_back_button(root)
 
     header_label = tk.Label(root, text="Settings")
     header_label.pack()
@@ -384,6 +381,8 @@ def openSearchedResults(searched):
             url = video_urls[index]
             
         return url
+
+    create_back_button(root)
     
     searched_label = tk.Label(text=f"Searched result for: {searched}")
     searched_label.pack()
@@ -444,5 +443,8 @@ def backToMain():
     for widget in root.winfo_children():
         widget.destroy()      
     create_gui()
+
+
+
 
 create_gui()
