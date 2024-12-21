@@ -20,6 +20,25 @@ root.title("Zigla's YouTube Downloader")
 with open("api_key.txt", 'r') as key:
     API_KEY = key.read()
 
+
+def check_connection():
+    global status_label
+    try:
+        response = requests.get('https://www.google.com', timeout=3)
+        response.raise_for_status()
+
+        if response.status_code == 200:
+            status_label.config(text="Online", fg="green")
+                    
+        else:
+            status_label.config(text="Offline", fg="red")
+
+    except requests.exceptions.RequestException:
+        status_label.config(text="No connection available...", fg="red")
+
+    root.after(5000, check_connection)
+
+
 def search_videos(query):
     try:
         youtube = build('youtube', 'v3', developerKey=API_KEY)
@@ -262,6 +281,7 @@ def create_gui():
             
         return url
         
+    check_connection()
     
     root.mainloop()
 
@@ -311,7 +331,7 @@ def openSettings():
     download_folder_entry.pack(side="left")
 
     about_app_label = tk.Label(root, text="About the App:")
-    about_app_label.pack(anchor="w", pady=(20, 0), padx=(30, 0))
+    about_app_label.pack(anchor="w", pady=(20, 0))
 
     about_app_text = tk.Label(
         root,
