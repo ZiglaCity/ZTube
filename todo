@@ -1,3 +1,5 @@
-1. Correct the typo in the title of the app
+since there status_label only appears in the home phase, handle exceptions when the connection state tries to change the lable configuration
+
+
 2. upgrade the ui with a better styling 
 3. deploy app 
