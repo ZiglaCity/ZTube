@@ -12,6 +12,7 @@ from pathlib import Path
 window_height = 700
 window_width = 650
 video_urls = []
+default_theme_bool = False
 download_path = str(Path.home() / "Downloads")
 root = tk.Tk()
 root.geometry(f"{window_width}x{window_height}")
@@ -26,10 +27,8 @@ def check_connection():
     try:
         response = requests.get('https://www.google.com', timeout=3)
         response.raise_for_status()
-
         if response.status_code == 200:
-            status_label.config(text="Online", fg="green")
-                    
+            status_label.config(text="Online", fg="green")           
         else:
             status_label.config(text="Offline", fg="red")
 
@@ -233,12 +232,16 @@ def create_back_button(parent):
 
 
 def set_theme():
-    global theme_var
+    global theme_var, default_theme_bool
     print(theme_var.get())
     if theme_var.get():
+        default_theme_bool = True
+        root.config(bg='#333333')
         print("Dark set_theme applied")
         # apply_dark_theme()
     else:
+        default_theme_bool = False
+        root.config(bg="#f0f0f0")
         print("Light set_theme applied")
         # apply_light_theme()
     return     
@@ -308,6 +311,7 @@ def openSettings():
     theme_frame.pack(anchor="w")
 
     theme_var = tk.BooleanVar()
+    theme_var.set(default_theme_bool)
 
     dark_label = tk.Label(theme_frame, text="Dark")
     dark_label.pack(side="left")
