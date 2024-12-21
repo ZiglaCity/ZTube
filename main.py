@@ -282,7 +282,7 @@ def openSettings():
     header_label.pack(side='top')
 
     theme_label = tk.Label(root, text="Theme:")
-    theme_label.pack(anchor="w")
+    theme_label.pack(anchor="w", pady=(10, 0))
 
     theme_frame = tk.Frame(root)
     theme_frame.pack(anchor="w")
@@ -296,7 +296,7 @@ def openSettings():
     theme_checkbutton.pack(side="right")
 
     directory_label = tk.Label(root, text="Default Directory:")
-    directory_label.pack(anchor="w")
+    directory_label.pack(anchor="w", pady=(20, 0))
 
     download_frame = tk.Frame(root)
     download_frame.pack(anchor="w")
@@ -311,7 +311,7 @@ def openSettings():
     download_folder_entry.pack(side="left")
 
     about_app_label = tk.Label(root, text="About the App:")
-    about_app_label.pack(anchor="w", pady=(10, 0))
+    about_app_label.pack(anchor="w", pady=(20, 0), padx=(30, 0))
 
     about_app_text = tk.Label(
         root,
@@ -319,12 +319,12 @@ def openSettings():
              "preview, and download videos directly from YouTube. With features like quality selection, "
              "progress tracking, and more, ZTube makes downloading content seamless and efficient.",
         justify="left",
-        wraplength=500
+        wraplength=400
     )
     about_app_text.pack(anchor="w")
 
     about_author_label = tk.Label(root, text="About the Author:")
-    about_author_label.pack(anchor="w", pady=(10, 0))
+    about_author_label.pack(anchor="w", pady=(20, 0))
 
     about_author_text = tk.Label(
         root,
@@ -332,12 +332,12 @@ def openSettings():
              "about creating innovative solutions that simplify everyday tasks. My expertise spans "
              "Python development, GUI design, and AI integration.",
         justify="left",
-        wraplength=500
+        wraplength=400
     )
     about_author_text.pack(anchor="w")
 
     contact_label = tk.Label(root, text="Contact the Developer:")
-    contact_label.pack(anchor="w", pady=(10, 0))
+    contact_label.pack(anchor="w", pady=(20, 0))
 
     def open_link(url):
         import webbrowser
@@ -364,7 +364,7 @@ def openSettings():
         print(f"Default Directory: {download_folder_entry.get()}")
 
     save_button = tk.Button(root, text="Save Settings", command=save_settings)
-    save_button.pack()
+    save_button.pack(side="bottom", pady=60)
 
 
 
