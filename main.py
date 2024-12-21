@@ -213,9 +213,21 @@ def create_back_button(parent):
     # return back_button
 
 
+def set_theme():
+    global theme_var
+    print(theme_var.get())
+    if theme_var.get():
+        print("Dark set_theme applied")
+        # apply_dark_theme()
+    else:
+        print("Light set_theme applied")
+        # apply_light_theme()
+    return     
+
+
 def create_gui():
     
-    global download_folder_entry, canvas,status_label,canvas, theme_var, select_video,progress_bar, path,canvas, quality_combobox, search_entry
+    global download_folder_entry, canvas,status_label,canvas, select_video,progress_bar, path,canvas, quality_combobox, search_entry
  
     search_frame = tk.Frame(root)
     search_frame.pack(fill="x", padx=10, pady=10)
@@ -237,17 +249,6 @@ def create_gui():
 
     status_label = tk.Label(root, text="No connection available...", font=('Helvetica', 12))
     status_label.pack(side="bottom")
-
-    theme_frame = tk.Frame(root)
-    theme_frame.pack(side="right")
-
-    theme_var = tk.BooleanVar()
-
-    theme_label = tk.Label(theme_frame, text="Dark")
-    theme_label.pack(side="left")
-
-    theme_checkbutton = tk.Checkbutton(theme_frame, variable=theme_var)
-    theme_checkbutton.pack(side="left")
         
     add_placeholder(search_entry, "Input video url or title...")
 
@@ -271,7 +272,7 @@ def openSettings():
 
     root.title("ZTube-Settings")
 
-    global download_folder_entry, download_path, path
+    global download_folder_entry, download_path, path, theme_var
 
     top_frame = tk.Frame(root)
     top_frame.pack(fill=tk.BOTH)
@@ -283,14 +284,16 @@ def openSettings():
     theme_label = tk.Label(root, text="Theme:")
     theme_label.pack(anchor="w")
 
-    theme_var = tk.StringVar(value="Light")
     theme_frame = tk.Frame(root)
     theme_frame.pack(anchor="w")
 
-    light_theme = tk.Radiobutton(theme_frame, text="Light", variable=theme_var, value="Light")
-    dark_theme = tk.Radiobutton(theme_frame, text="Dark", variable=theme_var, value="Dark")
-    light_theme.pack(side="left")
-    dark_theme.pack(side="left")
+    theme_var = tk.BooleanVar()
+
+    dark_label = tk.Label(theme_frame, text="Dark")
+    dark_label.pack(side="left")
+
+    theme_checkbutton = tk.Checkbutton(theme_frame, variable=theme_var, command=set_theme)
+    theme_checkbutton.pack(side="right")
 
     directory_label = tk.Label(root, text="Default Directory:")
     directory_label.pack(anchor="w")
@@ -306,9 +309,6 @@ def openSettings():
 
     download_folder_entry = tk.Entry(download_frame, textvariable=path, width=40, state='readonly')
     download_folder_entry.pack(side="left")
-
-    about_label = tk.Label(root, text="About the Author:")
-    about_label.pack(anchor="w")
 
     about_app_label = tk.Label(root, text="About the App:")
     about_app_label.pack(anchor="w", pady=(10, 0))
