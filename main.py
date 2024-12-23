@@ -250,46 +250,41 @@ def set_theme():
 def save_settings():
     pass
 
+
 def create_gui():
-    
-    global download_folder_entry, canvas,status_label,canvas, select_video,progress_bar, path,canvas, quality_combobox, search_entry
- 
-    search_frame = tk.Frame(root)
-    search_frame.pack(fill="x", padx=10, pady=10)
+    global search_entry, status_label, root
 
-    search_frame.columnconfigure(0, weight=1)  
-    search_frame.columnconfigure(1, weight=0)
+    search_frame = tk.Frame(root, pady=20)
+    search_frame.pack(fill="x", padx=20)
 
-    search_button = tk.Button(search_frame, text="Search", command=update_suggestions)
-    search_button.grid(row=0, column=0, sticky="w")
+    search_frame.columnconfigure(0, weight=0) 
+    search_frame.columnconfigure(1, weight=1) 
+    search_frame.columnconfigure(2, weight=0)
 
-    search_entry = tk.Entry(search_frame, width=80)
-    search_entry.grid(row=0, column=0, sticky="ew", padx=(50, 0))  # Adjust padding for alignment
+    search_button = tk.Button(
+        search_frame,
+        text="Search",
+        command=update_suggestions
+    )
+    search_button.grid(row=0, column=0, ipadx=10)
 
-    settings_button = tk.Button(search_frame, text="⚙️", command=openSettings)
-    settings_button.grid(row=0, column=1, sticky="e", padx=5)
+    search_entry = tk.Entry(search_frame, width=50)
+    search_entry.grid(row=0, column=1, sticky="ew", padx=(10, 0), ipady=5)
+    add_placeholder(search_entry, "Input video URL or title...")
 
-    mode_frame = tk.Frame(root, width=2)
-    mode_frame.pack(side="left")
+    settings_button = tk.Button(
+        search_frame,
+        text="⚙️",
+        command=openSettings
+    )
+    settings_button.grid(row=0, column=2, padx=(10, 0), ipadx=5)
 
-    status_label = tk.Label(root, text="No connection available...", font=('Helvetica', 12))
-    status_label.pack(side="bottom")
+    status_label = tk.Label(
+        root,
+        text="Checking connection..."
+    )
+    status_label.pack(side="bottom", pady=10)
         
-    add_placeholder(search_entry, "Input video url or title...")
-
-
-    def select_video(event = None):
-        global url
-        selection = "canvas.curselection()"
-        if selection:
-            index = selection[0]
-            url = video_urls[index]
-            
-        return url
-        
-    check_connection()
-    
-    root.mainloop()
 
 
 def openSettings():
@@ -300,11 +295,9 @@ def openSettings():
 
     global download_folder_entry, download_path, path, theme_var
 
-    # Main Frame for content
     main_frame = tk.Frame(root, bg="#f7f7f7")
     main_frame.pack(fill=tk.BOTH, padx=20, pady=20)
 
-    # Top frame with a back button
     top_frame = tk.Frame(main_frame, bg="#f7f7f7")
     top_frame.pack(fill=tk.X)
     create_back_button(top_frame)
@@ -312,7 +305,6 @@ def openSettings():
     header_label = tk.Label(top_frame, text="Settings", font=("Arial", 18, "bold"), bg="#f7f7f7", fg="#333")
     header_label.pack(side='top', pady=8)
 
-    # Theme section
     theme_frame = tk.LabelFrame(main_frame, text="Theme", font=("Arial", 12, "bold"), padx=10, pady=10, bg="#f7f7f7")
     theme_frame.pack(fill=tk.X, pady=(13, 8))
 
@@ -325,7 +317,6 @@ def openSettings():
     theme_checkbutton = tk.Checkbutton(theme_frame, variable=theme_var, command=set_theme, bg="#f7f7f7")
     theme_checkbutton.pack(side="right")
 
-    # Default Directory section
     directory_frame = tk.LabelFrame(main_frame, text="Default Directory", font=("Arial", 12, "bold"), padx=10, pady=10, bg="#f7f7f7")
     directory_frame.pack(fill=tk.X, pady=(13, 8))
 
@@ -338,7 +329,6 @@ def openSettings():
     download_folder_entry = tk.Entry(directory_frame, textvariable=path, width=40, state='readonly', font=("Arial", 10))
     download_folder_entry.pack(side="left", padx=5)
 
-    # About App section
     about_frame = tk.LabelFrame(main_frame, text="About the App", font=("Arial", 12, "bold"), padx=10, pady=10, bg="#f7f7f7")
     about_frame.pack(fill=tk.X, pady=(15, 10))
 
@@ -459,3 +449,5 @@ def backToMain():
 
 
 create_gui()
+root.mainloop()
+check_connection()
