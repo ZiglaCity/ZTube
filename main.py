@@ -20,11 +20,26 @@ root.title("Zigla's YouTube Downloader")
 mode = "light"
 
 
+# def set_theme():
+#     global mode
+#     mode = "dark" if theme_var.get() else "light"
+#     print(f"Current theme mode:{mode}")
+#     # apply_theme(mode)
+
 def set_theme():
-    global mode
-    mode = "dark" if theme_var.get() else "light"
-    print(f"Current theme mode:{mode}")
+    global default_theme_bool, mode
+    if theme_var.get():
+        mode = "dark"
+        default_theme_bool = True
+        root.config(bg='#333333')
+        print("Dark set_theme applied")
+    else:
+        mode = "light"
+        default_theme_bool = False
+        root.config(bg="#f0f0f0")
+        print("Light set_theme applied")
     # apply_theme(mode)
+
 
 with open("api_key.txt", 'r') as key:
     API_KEY = key.read()
@@ -85,10 +100,10 @@ def update_suggestions():
         def apply_selection_style(canvas, selected_tag):
             for index in range(len(videos)):
                 text_tag = f"text_{index}"
-                if theme_var.get():    
-                    canvas.itemconfig(text_tag, font=("Helvetica", 10), fill="white")
-                else:
+                if mode == "light":    
                     canvas.itemconfig(text_tag, font=("Helvetica", 10), fill="black")
+                else:
+                    canvas.itemconfig(text_tag, font=("Helvetica", 10), fill="white")
 
             canvas.itemconfig(selected_tag, font=("Helvetica", 10, "bold"), fill="blue")
 
@@ -116,6 +131,11 @@ def update_suggestions():
 
                 canvas.tag_bind(image_tag, "<Button-1>", lambda e, url=video_url, tag=text_tag: [on_video_click(url), apply_selection_style(canvas, tag)])
                 canvas.tag_bind(text_tag, "<Button-1>", lambda e, url=video_url, tag=text_tag: [on_video_click(url), apply_selection_style(canvas, tag)])
+
+                if mode == "light":    
+                    canvas.itemconfig(text_tag, font=("Helvetica", 10), fill="black")
+                else:
+                    canvas.itemconfig(text_tag, font=("Helvetica", 10), fill="white")
 
                 y_position += 100
 
@@ -237,22 +257,6 @@ def create_back_button(parent):
     back_button = tk.Button(parent, text="⬅", command=backToMain)
     back_button.pack(anchor="nw" , side='left')
     # return back_button
-
-
-def set_theme():
-    global theme_var, default_theme_bool
-    print(theme_var.get())
-    if theme_var.get():
-        default_theme_bool = True
-        root.config(bg='#333333')
-        print("Dark set_theme applied")
-        # apply_dark_theme()
-    else:
-        default_theme_bool = False
-        root.config(bg="#f0f0f0")
-        print("Light set_theme applied")
-        # apply_light_theme()
-    return     
 
 
 def save_settings():
