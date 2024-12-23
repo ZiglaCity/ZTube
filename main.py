@@ -81,7 +81,14 @@ def apply_theme(mode):
 def apply_widget_theme(widget, theme):
     """Apply theme to individual widgets."""
     if isinstance(widget, tk.Label):
-        widget.configure(bg=theme["label_bg"], fg=theme["label_fg"])
+        if widget.cget("text") == "GitHub":
+                widget.configure(bg=theme["label_bg"], fg="blue", font=("Arial", 10))
+        elif widget.cget("text") == "LinkedIn":
+            widget.configure(bg=theme["label_bg"], fg="blue", font=("Arial", 10))
+        elif widget.cget("text") == "Email":
+            widget.configure(bg=theme["label_bg"], fg="blue", font=("Arial", 10))
+        else:
+            widget.configure(bg=theme["label_bg"], fg=theme["label_fg"])
 
     elif isinstance(widget, tk.Button):
         widget.configure(bg=theme["button_bg"], fg=theme["button_fg"])
