@@ -450,4 +450,3 @@ def backToMain():
 
 create_gui()
 root.mainloop()
-check_connection()
