@@ -25,12 +25,83 @@ def set_theme():
     if theme_var.get():
         mode = "dark"
         default_theme_bool = True
-        root.config(bg='#333333')
     else:
         mode = "light"
         default_theme_bool = False
-        root.config(bg="#f0f0f0")
-        
+    apply_theme(mode)      
+
+
+def apply_theme(mode):
+    global light_theme, dark_theme
+    print("Applying theme styles...")
+    light_theme = {
+        "bg": "#f0f0f0",
+        "fg": "#333333",
+        "button_bg": "#e0e0e0",
+        "button_fg": "#000000",
+        "entry_bg": "#ffffff",
+        "entry_fg": "#000000",
+        "label_bg": "#f5f5f5",
+        "label_fg": "#333333",
+        "checkbox_bg": "#f5f5f5",
+        "checkbox_fg": "#333333",
+        "canvas_bg": "#ffffff",
+        "scrollbar_bg": "#e0e0e0",
+    }
+
+    dark_theme = {
+        "bg": "#333333",
+        "fg": "#ffffff",
+        "button_bg": "#333333",
+        "button_fg": "#ffffff",
+        "entry_bg": "#ffffff",
+        "entry_fg": "#000000",
+        "label_bg": "#333333",
+        "label_fg": "#ffffff",
+        "checkbox_bg": "#1e1e1e",
+        "checkbox_fg": "#ffffff",
+        "canvas_bg": "#333333",
+        "scrollbar_bg": "#3c3c3c",
+    }
+
+    theme = dark_theme if mode == "dark" else light_theme
+
+    root.configure(bg=theme["bg"])
+
+    for widget in root.winfo_children():
+        if isinstance(widget, tk.Frame) or isinstance(widget, tk.LabelFrame):
+            widget.configure(bg=theme["bg"])
+            for sub_widget in widget.winfo_children():
+                apply_widget_theme(sub_widget, theme)
+
+        else:
+            apply_widget_theme(widget, theme)
+
+
+
+def apply_widget_theme(widget, theme):
+    """Apply theme to individual widgets."""
+    if isinstance(widget, tk.Label):
+        widget.configure(bg=theme["label_bg"], fg=theme["label_fg"])
+
+    elif isinstance(widget, tk.Button):
+        widget.configure(bg=theme["button_bg"], fg=theme["button_fg"])
+
+    elif isinstance(widget, tk.Checkbutton):
+        widget.configure(bg=theme["checkbox_bg"], fg=theme["checkbox_fg"])
+
+    elif isinstance(widget, tk.Entry): 
+        widget.configure( bg=theme["entry_bg"], fg=theme["entry_fg"])
+
+    elif isinstance(widget, tk.Frame) or isinstance(widget, tk.LabelFrame):
+        if isinstance(widget, tk.LabelFrame):
+            widget.config(fg=theme['fg'])
+            
+        widget.configure(bg=theme["bg"])
+        for sub_widget in widget.winfo_children():
+            apply_widget_theme(sub_widget, theme)
+
+
 
 with open("api_key.txt", 'r') as key:
     API_KEY = key.read()
@@ -287,7 +358,8 @@ def create_gui():
         text="Checking connection..."
     )
     status_label.pack(side="bottom", pady=10)
-        
+    
+    apply_theme(mode)
 
 
 def openSettings():
