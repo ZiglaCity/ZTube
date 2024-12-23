@@ -310,11 +310,11 @@ def openSettings():
     create_back_button(top_frame)
 
     header_label = tk.Label(top_frame, text="Settings", font=("Arial", 18, "bold"), bg="#f7f7f7", fg="#333")
-    header_label.pack(side='top', pady=10)
+    header_label.pack(side='top', pady=8)
 
     # Theme section
     theme_frame = tk.LabelFrame(main_frame, text="Theme", font=("Arial", 12, "bold"), padx=10, pady=10, bg="#f7f7f7")
-    theme_frame.pack(fill=tk.X, pady=(15, 10))
+    theme_frame.pack(fill=tk.X, pady=(13, 8))
 
     theme_var = tk.BooleanVar()
     theme_var.set(default_theme_bool)
@@ -327,7 +327,7 @@ def openSettings():
 
     # Default Directory section
     directory_frame = tk.LabelFrame(main_frame, text="Default Directory", font=("Arial", 12, "bold"), padx=10, pady=10, bg="#f7f7f7")
-    directory_frame.pack(fill=tk.X, pady=(15, 10))
+    directory_frame.pack(fill=tk.X, pady=(13, 8))
 
     path = tk.StringVar()
     path.set(download_path)
