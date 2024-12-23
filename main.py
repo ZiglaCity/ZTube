@@ -33,7 +33,6 @@ def set_theme():
 
 def apply_theme(mode):
     global light_theme, dark_theme
-    print("Applying theme styles...")
     light_theme = {
         "bg": "#f0f0f0",
         "fg": "#333333",
@@ -116,6 +115,63 @@ def apply_search_results_theme(theme):
     suggestion_frame.configure(bg=theme["label_bg"])
     download_frame.configure(bg=theme["label_bg"])
     resolution_frame.configure(bg=theme["label_bg"])
+
+
+
+def apply_modern_styles():
+    button_style = {
+        "relief": "flat",
+        "borderwidth": 1,    
+        "highlightthickness": 0, 
+        "padx": 10,             
+        "pady": 5,   
+        "font": ("Helvetica", 10, "bold"),
+        "cursor": "hand2"
+    }
+
+    entry_style = {
+        "relief": "flat",         
+        "borderwidth": 1,    
+        "font": ("Helvetica", 10),
+        "insertbackground": "#666"
+    }
+
+    label_style = {
+        "font": ("Helvetica", 10),
+        "padx": 5,
+        "pady": 5
+    }
+
+
+    # Apply Styles Dynamically to All Widgets
+    for widget in root.winfo_children():
+        if isinstance(widget, tk.Button):
+            widget.configure(**button_style)
+        elif isinstance(widget, tk.Entry):
+            widget.configure(**entry_style)
+        elif isinstance(widget, tk.Label):
+            widget.configure(**label_style)
+     
+        # Handle Frames with Nested Widgets
+        elif isinstance(widget, tk.Frame):
+            for sub_widget in widget.winfo_children():
+                apply_modern_widget_styles(sub_widget, button_style, entry_style, label_style)
+
+
+def apply_modern_widget_styles(widget, button_style, entry_style, label_style):
+    """Apply modern styles to nested widgets."""
+    if isinstance(widget, tk.Button):
+        widget.configure(**button_style)
+    elif isinstance(widget, tk.Entry):
+        widget.configure(**entry_style)
+    elif isinstance(widget, tk.Label):
+        widget.configure(**label_style)
+   
+    # Recursive for Nested Frames
+    elif isinstance(widget, tk.Frame):
+        for sub_widget in widget.winfo_children():
+            apply_modern_widget_styles(sub_widget, button_style, entry_style, label_style)
+
 
 
 with open("api_key.txt", 'r') as key:
@@ -375,6 +431,7 @@ def create_gui():
     status_label.pack(side="bottom", pady=10)
     
     apply_theme(mode)
+    apply_modern_styles()
 
 
 def openSettings():
@@ -477,6 +534,8 @@ def openSettings():
     save_button = tk.Button(main_frame, text="Save Settings", command=save_settings, font=("Arial", 12), bg="#4CAF50", fg="white")
     save_button.pack(side="bottom", pady=10)
 
+    apply_theme(mode)
+    apply_modern_styles()
 
 
 def openSearchedResults(searched):
