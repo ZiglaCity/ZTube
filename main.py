@@ -344,12 +344,20 @@ def openSettings():
     author_frame.pack(fill=tk.X, pady=(15, 10))
 
     about_author_text = tk.Label(
-        author_frame,
-        text="Zigla City\nA passionate developer exploring tech, Programming, Cybersecurity and AI. Zigla is enthusiastic about creating innovative solutions that simplify everyday tasks. "
-             "My expertise spans Python development, GUI design, and AI integration.",
-        justify="left", wraplength=400, font=("Arial", 10), bg="#f7f7f7"
-    )
-    about_author_text.pack(anchor="w")
+    author_frame,
+    text="Zigla City\nA passionate developer exploring tech, Programming, Cybersecurity and AI. "
+         "Zigla is enthusiastic about creating innovative solutions that simplify everyday tasks. "
+         "My expertise spans Python development, GUI design, and AI integration.",
+    justify="left", 
+    wraplength=400, 
+    font=("Segoe UI", 10, "italic"),
+    bg="#f7f7f7",                    
+    fg="#333333",                     
+    padx=10,                           
+    pady=10,                           
+    anchor="w"                       
+)
+    about_author_text.pack(anchor="w", padx=10, pady=5)
 
     contact_frame = tk.LabelFrame(main_frame, text="Contact the Developer", font=("Arial", 12, "bold"), padx=10, pady=10, bg="#f7f7f7")
     contact_frame.pack(fill=tk.X, pady=(15, 10))
