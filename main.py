@@ -247,6 +247,9 @@ def set_theme():
     return     
 
 
+def save_settings():
+    pass
+
 def create_gui():
     
     global download_folder_entry, canvas,status_label,canvas, select_video,progress_bar, path,canvas, quality_combobox, search_entry
@@ -293,103 +296,92 @@ def openSettings():
     for widget in root.winfo_children():
         widget.destroy()
 
-    root.title("ZTube-Settings")
+    root.title("ZTube - Settings")
 
     global download_folder_entry, download_path, path, theme_var
 
-    top_frame = tk.Frame(root)
-    top_frame.pack(fill=tk.BOTH)
+    # Main Frame for content
+    main_frame = tk.Frame(root, bg="#f7f7f7")
+    main_frame.pack(fill=tk.BOTH, padx=20, pady=20)
+
+    # Top frame with a back button
+    top_frame = tk.Frame(main_frame, bg="#f7f7f7")
+    top_frame.pack(fill=tk.X)
     create_back_button(top_frame)
 
-    header_label = tk.Label(top_frame, text="Settings")
-    header_label.pack(side='top')
+    header_label = tk.Label(top_frame, text="Settings", font=("Arial", 18, "bold"), bg="#f7f7f7", fg="#333")
+    header_label.pack(side='top', pady=10)
 
-    theme_label = tk.Label(root, text="Theme:")
-    theme_label.pack(anchor="w", pady=(10, 0))
-
-    theme_frame = tk.Frame(root)
-    theme_frame.pack(anchor="w")
+    # Theme section
+    theme_frame = tk.LabelFrame(main_frame, text="Theme", font=("Arial", 12, "bold"), padx=10, pady=10, bg="#f7f7f7")
+    theme_frame.pack(fill=tk.X, pady=(15, 10))
 
     theme_var = tk.BooleanVar()
     theme_var.set(default_theme_bool)
 
-    dark_label = tk.Label(theme_frame, text="Dark")
-    dark_label.pack(side="left")
+    dark_label = tk.Label(theme_frame, text="Dark Mode", font=("Arial", 12), bg="#f7f7f7")
+    dark_label.pack(side="left", padx=10)
 
-    theme_checkbutton = tk.Checkbutton(theme_frame, variable=theme_var, command=set_theme)
+    theme_checkbutton = tk.Checkbutton(theme_frame, variable=theme_var, command=set_theme, bg="#f7f7f7")
     theme_checkbutton.pack(side="right")
 
-    directory_label = tk.Label(root, text="Default Directory:")
-    directory_label.pack(anchor="w", pady=(20, 0))
-
-    download_frame = tk.Frame(root)
-    download_frame.pack(anchor="w")
+    # Default Directory section
+    directory_frame = tk.LabelFrame(main_frame, text="Default Directory", font=("Arial", 12, "bold"), padx=10, pady=10, bg="#f7f7f7")
+    directory_frame.pack(fill=tk.X, pady=(15, 10))
 
     path = tk.StringVar()
     path.set(download_path)
 
-    download_folder_button = tk.Button(download_frame, text="Save", command=select_save_location)
-    download_folder_button.pack(side="left")
+    download_folder_button = tk.Button(directory_frame, text="Select Folder", command=select_save_location, font=("Arial", 10), bg="#4CAF50", fg="white")
+    download_folder_button.pack(side="left", padx=5)
 
-    download_folder_entry = tk.Entry(download_frame, textvariable=path, width=40, state='readonly')
-    download_folder_entry.pack(side="left")
+    download_folder_entry = tk.Entry(directory_frame, textvariable=path, width=40, state='readonly', font=("Arial", 10))
+    download_folder_entry.pack(side="left", padx=5)
 
-    about_app_label = tk.Label(root, text="About the App:")
-    about_app_label.pack(anchor="w", pady=(20, 0))
+    # About App section
+    about_frame = tk.LabelFrame(main_frame, text="About the App", font=("Arial", 12, "bold"), padx=10, pady=10, bg="#f7f7f7")
+    about_frame.pack(fill=tk.X, pady=(15, 10))
 
     about_app_text = tk.Label(
-        root,
-        text="ZTube is a simple and intuitive YouTube video downloader. It allows users to search, "
-             "preview, and download videos directly from YouTube. With features like quality selection, "
-             "progress tracking, and more, ZTube makes downloading content seamless and efficient.",
-        justify="left",
-        wraplength=400
+        about_frame,
+        text="ZTube is a simple and intuitive YouTube video downloader. It allows users to search, preview, and download videos directly from YouTube. "
+             "With features like quality selection, progress tracking, and more, ZTube makes downloading content seamless and efficient.",
+        justify="left", wraplength=400, font=("Arial", 10), bg="#f7f7f7"
     )
     about_app_text.pack(anchor="w")
 
-    about_author_label = tk.Label(root, text="About the Author:")
-    about_author_label.pack(anchor="w", pady=(20, 0))
+    author_frame = tk.LabelFrame(main_frame, text="About the Author", font=("Arial", 12, "bold"), padx=10, pady=10, bg="#f7f7f7")
+    author_frame.pack(fill=tk.X, pady=(15, 10))
 
     about_author_text = tk.Label(
-        root,
-        text="Zigla City\nA passionate developer exploring tech, Programming, Cybersecurity and AI. Zigla is enthusiastic "
-             "about creating innovative solutions that simplify everyday tasks. My expertise spans "
-             "Python development, GUI design, and AI integration.",
-        justify="left",
-        wraplength=400
+        author_frame,
+        text="Zigla City\nA passionate developer exploring tech, Programming, Cybersecurity and AI. Zigla is enthusiastic about creating innovative solutions that simplify everyday tasks. "
+             "My expertise spans Python development, GUI design, and AI integration.",
+        justify="left", wraplength=400, font=("Arial", 10), bg="#f7f7f7"
     )
     about_author_text.pack(anchor="w")
 
-    contact_label = tk.Label(root, text="Contact the Developer:")
-    contact_label.pack(anchor="w", pady=(20, 0))
+    contact_frame = tk.LabelFrame(main_frame, text="Contact the Developer", font=("Arial", 12, "bold"), padx=10, pady=10, bg="#f7f7f7")
+    contact_frame.pack(fill=tk.X, pady=(15, 10))
 
     def open_link(url):
         import webbrowser
         webbrowser.open_new(url)
 
-    contact_frame = tk.Frame(root)
-    contact_frame.pack(anchor="w")
-
-    github_link = tk.Label(contact_frame, text="GitHub", fg="blue", cursor="hand2")
-    github_link.pack(side="left", padx=5)
+    github_link = tk.Label(contact_frame, text="GitHub", fg="blue", cursor="hand2", font=("Arial", 10), bg="#f7f7f7")
+    github_link.pack(side="left", padx=10)
     github_link.bind("<Button-1>", lambda e: open_link("https://github.com/ziglacity"))
 
-    linkedin_link = tk.Label(contact_frame, text="LinkedIn", fg="blue", cursor="hand2")
-    linkedin_link.pack(side="left", padx=5)
+    linkedin_link = tk.Label(contact_frame, text="LinkedIn", fg="blue", cursor="hand2", font=("Arial", 10), bg="#f7f7f7")
+    linkedin_link.pack(side="left", padx=10)
     linkedin_link.bind("<Button-1>", lambda e: open_link("https://linkedin.com/in/ziglacity"))
 
-    email_link = tk.Label(contact_frame, text="Email", fg="blue", cursor="hand2")
-    email_link.pack(side="left", padx=5)
+    email_link = tk.Label(contact_frame, text="Email", fg="blue", cursor="hand2", font=("Arial", 10), bg="#f7f7f7")
+    email_link.pack(side="left", padx=10)
     email_link.bind("<Button-1>", lambda e: open_link("mailto:ziglacity@gmail.com"))
 
-
-    def save_settings():
-        print(f"Theme: {theme_var.get()}")
-        print(f"Default Directory: {download_folder_entry.get()}")
-
-    save_button = tk.Button(root, text="Save Settings", command=save_settings)
-    save_button.pack(side="bottom", pady=60)
-
+    save_button = tk.Button(main_frame, text="Save Settings", command=save_settings, font=("Arial", 12), bg="#4CAF50", fg="white")
+    save_button.pack(side="bottom", pady=10)
 
 
 
