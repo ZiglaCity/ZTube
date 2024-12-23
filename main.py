@@ -535,7 +535,9 @@ def backToMain():
     create_gui()
 
 
+def start_app():
+    create_gui()
+    root.mainloop()
 
 
-create_gui()
-root.mainloop()
+start_app()
