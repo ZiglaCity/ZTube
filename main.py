@@ -303,10 +303,10 @@ def openSettings():
     create_back_button(top_frame)
 
     header_label = tk.Label(top_frame, text="Settings", font=("Arial", 18, "bold"), bg="#f7f7f7", fg="#333")
-    header_label.pack(side='top', pady=8)
+    header_label.pack(side='top', pady=2)
 
     theme_frame = tk.LabelFrame(main_frame, text="Theme", font=("Arial", 12, "bold"), padx=10, pady=10, bg="#f7f7f7")
-    theme_frame.pack(fill=tk.X, pady=(13, 8))
+    theme_frame.pack(fill=tk.X, pady=(2, 0))
 
     theme_var = tk.BooleanVar()
     theme_var.set(default_theme_bool)
@@ -318,7 +318,7 @@ def openSettings():
     theme_checkbutton.pack(side="right")
 
     directory_frame = tk.LabelFrame(main_frame, text="Default Directory", font=("Arial", 12, "bold"), padx=10, pady=10, bg="#f7f7f7")
-    directory_frame.pack(fill=tk.X, pady=(13, 8))
+    directory_frame.pack(fill=tk.X, pady=(3, 1))
 
     path = tk.StringVar()
     path.set(download_path)
@@ -334,30 +334,36 @@ def openSettings():
 
     about_app_text = tk.Label(
         about_frame,
-        text="ZTube is a simple and intuitive YouTube video downloader. It allows users to search, preview, and download videos directly from YouTube. "
+        text="ZTube\n is a simple and intuitive YouTube video downloader. It allows users to search, preview, and download videos directly from YouTube. "
              "With features like quality selection, progress tracking, and more, ZTube makes downloading content seamless and efficient.",
-        justify="left", wraplength=400, font=("Arial", 10), bg="#f7f7f7"
-    )
-    about_app_text.pack(anchor="w")
-
-    author_frame = tk.LabelFrame(main_frame, text="About the Author", font=("Arial", 12, "bold"), padx=10, pady=10, bg="#f7f7f7")
-    author_frame.pack(fill=tk.X, pady=(15, 10))
-
-    about_author_text = tk.Label(
-    author_frame,
-    text="Zigla City\nA passionate developer exploring tech, Programming, Cybersecurity and AI. "
-         "Zigla is enthusiastic about creating innovative solutions that simplify everyday tasks. "
-         "My expertise spans Python development, GUI design, and AI integration.",
-    justify="left", 
+    justify="center", 
     wraplength=400, 
     font=("Segoe UI", 10, "italic"),
     bg="#f7f7f7",                    
     fg="#333333",                     
     padx=10,                           
     pady=10,                           
-    anchor="w"                       
-)
-    about_author_text.pack(anchor="w", padx=10, pady=5)
+    anchor="w"                           )
+    about_app_text.pack(anchor="w")
+
+    author_frame = tk.LabelFrame(main_frame, text="About the Author", font=("Arial", 12, "bold"), padx=10, pady=10, bg="#f7f7f7")
+    author_frame.pack(fill=tk.X, pady=(0, 10))
+
+    about_author_text = tk.Label(
+    author_frame,
+    text="Zigla City\nA passionate developer exploring tech, Programming, Cybersecurity and AI. "
+         "Zigla is enthusiastic about creating innovative solutions that simplify everyday tasks. "
+         "My expertise spans Python development, GUI design, and AI integration.",
+    justify="center", 
+    wraplength=400, 
+    font=("Segoe UI", 10, "italic"),
+    bg="#f7f7f7",                    
+    fg="#333333",                     
+    padx=10,                           
+    pady=10,                           
+    anchor="w")
+    about_author_text.pack(anchor="w", padx=10, pady=0)  # Padding outside the label
+
 
     contact_frame = tk.LabelFrame(main_frame, text="Contact the Developer", font=("Arial", 12, "bold"), padx=10, pady=10, bg="#f7f7f7")
     contact_frame.pack(fill=tk.X, pady=(15, 10))
