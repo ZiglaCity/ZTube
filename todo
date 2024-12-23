@@ -1,5 +1,7 @@
 since there status_label only appears in the home phase, handle exceptions when the connection state tries to change the lable configuration
 
 
+make sure there is a consistent styling across widgets.
+
 2. upgrade the ui with a better styling 
 3. deploy app 
