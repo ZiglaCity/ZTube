@@ -20,26 +20,17 @@ root.title("Zigla's YouTube Downloader")
 mode = "light"
 
 
-# def set_theme():
-#     global mode
-#     mode = "dark" if theme_var.get() else "light"
-#     print(f"Current theme mode:{mode}")
-#     # apply_theme(mode)
-
 def set_theme():
     global default_theme_bool, mode
     if theme_var.get():
         mode = "dark"
         default_theme_bool = True
         root.config(bg='#333333')
-        print("Dark set_theme applied")
     else:
         mode = "light"
         default_theme_bool = False
         root.config(bg="#f0f0f0")
-        print("Light set_theme applied")
-    # apply_theme(mode)
-
+        
 
 with open("api_key.txt", 'r') as key:
     API_KEY = key.read()
@@ -355,8 +346,8 @@ def openSettings():
     fg="#333333",                     
     padx=10,                           
     pady=10,                           
-    anchor="w"                           )
-    about_app_text.pack(anchor="w")
+    anchor="center"                           )
+    about_app_text.pack(anchor="center")
 
     author_frame = tk.LabelFrame(main_frame, text="About the Author", font=("Arial", 12, "bold"), padx=10, pady=10, bg="#f7f7f7")
     author_frame.pack(fill=tk.X, pady=(0, 10))
@@ -373,8 +364,8 @@ def openSettings():
     fg="#333333",                     
     padx=10,                           
     pady=10,                           
-    anchor="w")
-    about_author_text.pack(anchor="w", padx=10, pady=0)  # Padding outside the label
+    anchor="center")
+    about_author_text.pack(anchor="center", padx=10, pady=0)  # Padding outside the label
 
 
     contact_frame = tk.LabelFrame(main_frame, text="Contact the Developer", font=("Arial", 12, "bold"), padx=10, pady=10, bg="#f7f7f7")
