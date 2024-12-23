@@ -17,6 +17,14 @@ download_path = str(Path.home() / "Downloads")
 root = tk.Tk()
 root.geometry(f"{window_width}x{window_height}")
 root.title("Zigla's YouTube Downloader")
+mode = "light"
+
+
+def set_theme():
+    global mode
+    mode = "dark" if theme_var.get() else "light"
+    print(f"Current theme mode:{mode}")
+    # apply_theme(mode)
 
 with open("api_key.txt", 'r') as key:
     API_KEY = key.read()
