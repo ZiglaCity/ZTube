@@ -103,6 +103,21 @@ def apply_widget_theme(widget, theme):
 
 
 
+def apply_search_results_theme(theme):
+    canvas.configure(bg=theme["bg"])
+
+    download_button.configure(bg=theme["button_bg"], fg=theme["button_fg"], font=("Segoe UI", 10, "bold"))
+
+    searched_label.configure(bg=theme["label_bg"], fg=theme["label_fg"], font=("Segoe UI", 12, "bold"))
+    progress_label.configure(bg=theme["label_bg"], fg=theme["label_fg"], font=("Segoe UI", 10))
+    resolution_label.configure(bg=theme["label_bg"], fg=theme["label_fg"], font=("Segoe UI", 10, "italic"))
+    
+    top_frame.configure(bg=theme["label_bg"])
+    suggestion_frame.configure(bg=theme["label_bg"])
+    download_frame.configure(bg=theme["label_bg"])
+    resolution_frame.configure(bg=theme["label_bg"])
+
+
 with open("api_key.txt", 'r') as key:
     API_KEY = key.read()
 
@@ -470,7 +485,7 @@ def openSearchedResults(searched):
     
     root.title("Ztube-Search Result")
 
-    global download_folder_entry, progress_label, canvas,status_label,canvas, theme_var, select_video,progress_bar, path,canvas, quality_combobox, search_entry
+    global download_folder_entry, progress_label, download_button,searched_label, resolution_label, resolution_frame,top_frame, suggestion_frame,download_frame, canvas,status_label,canvas, theme_var, select_video,progress_bar, path,canvas, quality_combobox, search_entry
 
     def select_video(event = None):
         global url
@@ -527,6 +542,8 @@ def openSearchedResults(searched):
     progress_label = tk.Label(root, text="0.00% downloaded")
     progress_label.pack()
 
+    theme = dark_theme if mode == "dark" else light_theme
+    apply_search_results_theme(theme)
 
 
 def backToMain():
