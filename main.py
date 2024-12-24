@@ -224,14 +224,13 @@ def search_videos(query):
             maxResults=10
         )
         response = request.execute()
-        print(f"response found: {response}")
+        # print(f"response found: {response}")
         return [{'title': item['snippet']['title'], 
                 'videoId': item['id']['videoId'], 
                 'thumbnail': item['snippet']['thumbnails']['default']['url']} 
                 for item in response['items']]
     except Exception as e:
-        print(e)
-        messagebox.showinfo("Sorry!", "Failed to connect!")
+        messagebox.showinfo("Sorry!", f"Failed to connect! \nError: {e}")
         return 
 
 
@@ -239,7 +238,7 @@ def update_suggestions():
     query = search_entry.get()
     if query:
         videos = search_videos(query)
-        print(f"videos found are: {videos}")
+        # print(f"videos found are: {videos}")
         if not videos:
             return
         openSearchedResults(query)
@@ -292,7 +291,7 @@ def update_suggestions():
                 y_position += 100
 
             else:
-                print(f"Failed to load image from {thumbnail_url}")
+                return messagebox.showerror("Error!", f"Failed to load image from {thumbnail_url}")
     else:
         return messagebox.showinfo("Error", "Please input to search!")
     canvas.image_list = images
@@ -389,7 +388,6 @@ def on_progress(stream, chunk, bytes_remaining):
 
 
 def update_progress(percentage):
-    print(f"Downloaded: {percentage:.2f}%")
     progress_bar['value'] = percentage
     progress_label.config(text=f"{percentage:.2f}% downloaded")
     root.update_idletasks()
@@ -416,7 +414,6 @@ def add_placeholder(entry, placeholder_text):
 def create_back_button(parent):
     back_button = tk.Button(parent, text="⬅", command=backToMain)
     back_button.pack(anchor="nw" , side='left')
-    # return back_button
 
 
 def save_settings():
@@ -513,7 +510,7 @@ def openSettings():
 
     about_app_text = tk.Label(
         about_frame,
-        text="ZTube\n is a simple and intuitive YouTube video downloader. It allows users to search, preview, and download videos directly from YouTube. "
+        text="ZTube\n A simple and intuitive YouTube video downloader. It allows users to search, preview, and download videos directly from YouTube. "
              "With features like quality selection, progress tracking, and more, ZTube makes downloading content seamless and efficient.",
     justify="center", 
     wraplength=400, 
@@ -567,7 +564,6 @@ def openSettings():
     save_button.pack(side="bottom", pady=10)
 
     apply_theme(mode)
-    # apply_modern_styles()
 
 
 def openSearchedResults(searched):
