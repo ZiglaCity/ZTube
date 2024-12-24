@@ -576,11 +576,11 @@ def openSearchedResults(searched):
     searched_label = tk.Label(top_frame,text=f"Searched result for: {searched}")
     searched_label.pack(side='top')
 
-    suggestion_frame = tk.Frame(root, height=450, width=window_width)
+    suggestion_frame = tk.Frame(root, height=500, width=window_width)
     suggestion_frame.pack(pady=10, fill=None, expand=False)
     suggestion_frame.pack_propagate(False)
 
-    canvas = tk.Canvas(suggestion_frame, height=350, width=window_width - 20)
+    canvas = tk.Canvas(suggestion_frame, height=400, width=window_width - 20)
     canvas.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
 
     scrollbar = ttk.Scrollbar(suggestion_frame, orient=tk.VERTICAL, command=canvas.yview)
