@@ -427,6 +427,8 @@ def create_gui():
     global search_entry, status_label, root, current_phase
     current_phase = "create_gui"
 
+    root.title("ZTube")
+
     search_frame = tk.Frame(root, pady=20)
     search_frame.pack(fill="x", padx=20)
 
