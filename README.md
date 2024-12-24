@@ -1,4 +1,4 @@
-# ZTube - Zigla City's YouTube Downloader 🚀
+# ZTube - Zigla's YouTube Downloader 🚀
 
 ZTube is a sleek and powerful YouTube video downloader built with Python and Tkinter, designed to offer seamless video downloading experiences. It supports various video resolutions and ensures smooth performance with multithreading.
 
