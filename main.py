@@ -351,7 +351,6 @@ def threaded_download():
         progress_label.config(text="0.00% downloaded")
 
     except Exception as e:
-        # Notify error
         root.after(0, lambda: messagebox.showerror("Error", f"Failed to download video: {e}"))
         root.after(0, lambda: progress_bar.config(value=0))
         root.after(0, lambda: progress_label.config(text=f"{0:.2f}% downloaded"))
@@ -373,6 +372,14 @@ def on_progress(stream, chunk, bytes_remaining):
     bytes_downloaded = total_size - bytes_remaining
     percentage = (bytes_downloaded / total_size) * 100
 
+    # progress_bar['value'] = percentage
+    # progress_label.config(text=f"{percentage:.2f}% downloaded")
+    root.after(0, lambda: update_progress(percentage))
+
+
+
+def update_progress(percentage):
+    print(f"Downloaded: {percentage:.2f}%")
     progress_bar['value'] = percentage
     progress_label.config(text=f"{percentage:.2f}% downloaded")
     root.update_idletasks()
