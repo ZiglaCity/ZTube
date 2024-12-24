@@ -21,6 +21,8 @@ root.geometry(f"{window_width}x{window_height}")
 root.title("Zigla's YouTube Downloader")
 mode = "light"
 current_phase = "create_gui"
+status = "Checking connection..."
+
 
 def set_theme():
     global default_theme_bool, mode
@@ -187,21 +189,29 @@ with open("api_key.txt", 'r') as key:
     API_KEY = key.read()
 
 
-def check_connection():
-    global status_label
-    if current_phase == "create_gui":
-        try:
-            response = requests.get('https://www.google.com', timeout=3)
-            response.raise_for_status()
-            if response.status_code == 200:
-                status_label.config(text="Online", fg="green")           
-            else:
-                status_label.config(text="Offline", fg="red")
+def check_connection_thread():
+    while True:
+        if current_phase == "create_gui":
+            try:
+                response = requests.get('https://www.google.com', timeout=3)
+                response.raise_for_status()
+                is_online = response.status_code == 200
+            except requests.exceptions.RequestException:
+                is_online = False
 
-        except requests.exceptions.RequestException:
-            status_label.config(text="No connection available...", fg="red")
+            root.after(0, lambda: update_status(is_online))
 
-    root.after(5000, check_connection)
+        time.sleep(5)  # Wait 5 seconds before checking again
+
+
+def update_status(is_online):
+    global status
+    if is_online and current_phase == "create_gui":
+        status_label.config(text="Online", fg="green")
+        status = "Online"
+    elif current_phase == "create_gui":
+        status_label.config(text="Offline", fg="red")
+        status = "Offline"
 
 
 def search_videos(query):
@@ -444,7 +454,7 @@ def create_gui():
 
     status_label = tk.Label(
         root,
-        text="Checking connection..."
+        text=status
     )
     status_label.pack(side="bottom", pady=10)
     
@@ -636,7 +646,8 @@ def backToMain():
 
 def start_app():
     create_gui()
-    check_connection()
+    online_thread = threading.Thread(target=check_connection_thread, daemon=True)
+    online_thread.start()
     root.mainloop()
 
 
