@@ -17,8 +17,13 @@ video_urls = []
 default_theme_bool = False
 download_path = str(Path.home() / "Downloads")
 root = tk.Tk()
-root.geometry(f"{window_width}x{window_height}")
-root.title("Zigla's YouTube Downloader")
+screen_width = root.winfo_screenwidth()
+screen_height = root.winfo_screenheight()
+x_position = int((screen_width / 2) - (window_width / 2))
+y_position = 20 
+# settings app window size and position
+root.geometry(f"{window_width}x{window_height}+{x_position}+{y_position}")
+root.title("Zigla's YouTube Downloaders")
 mode = "light"
 current_phase = "create_gui"
 status = "Checking connection..."
