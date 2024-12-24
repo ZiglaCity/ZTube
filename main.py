@@ -7,6 +7,8 @@ from io import BytesIO
 import requests
 from PIL import Image, ImageTk
 from pathlib import Path
+import threading
+import time
 
 
 window_height = 700
@@ -317,6 +319,10 @@ def update_quality_options(url):
 
 
 def download():
+    threading.Thread(target=threaded_download, daemon=True).start()
+
+
+def threaded_download():
     global selected_video_url, path, quality_combobox, progress_bar, root
 
     try:
@@ -330,29 +336,25 @@ def download():
         if not url:
             raise ValueError("No video URL selected.")
 
-        if progress_bar is None:
-            progress_bar = ttk.Progressbar(root, orient="horizontal", length=300, mode="determinate")
-            progress_bar.pack(pady=10)
-        else:
-            progress_bar['value'] = 0
+        progress_bar['value'] = 0
 
         yt = YouTube(url, on_progress_callback=on_progress)
 
-        # Find the stream that matches the selected resolution
         stream = yt.streams.filter(res=resolution, progressive=True, file_extension='mp4').first()
         if not stream:
             raise ValueError(f"No stream found for resolution {resolution}.")
 
-        stream.download(output_path=download_path)
+        stream.download(output_path=download_path, skip_existing=False, max_retries=5)
 
-        messagebox.showinfo("Success", f"Video downloaded successfully to {download_path}")
-        
-        progress_bar['value'] = 0
+        messagebox.showinfo("Success", f"Video downloaded successfully to {download_path}")     
+        progress_bar.config(value=0)
+        progress_label.config(text="0.00% downloaded")
 
     except Exception as e:
-        messagebox.showerror("Error", f"Failed to download video: {e}")
-        progress_bar['value'] = 0 
-        progress_label.config(text=f"{0:.2f}% downloaded")
+        # Notify error
+        root.after(0, lambda: messagebox.showerror("Error", f"Failed to download video: {e}"))
+        root.after(0, lambda: progress_bar.config(value=0))
+        root.after(0, lambda: progress_label.config(text=f"{0:.2f}% downloaded"))
 
 
 def select_save_location():
