@@ -1,1 +1,13 @@
+# Ignore my api key 
 api_key.txt
+
+# ignore my build and dist
+dist/
+build/
+
+# ingore my spec file for executable
+ZTube.spec
+
+# ignore my test file
+test.py
+
