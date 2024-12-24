@@ -365,6 +365,7 @@ def select_save_location():
     download_folder_entry.config(state='readonly')
     return path
 
+
 def on_progress(stream, chunk, bytes_remaining):
     total_size = stream.filesize
     bytes_downloaded = total_size - bytes_remaining
@@ -594,7 +595,7 @@ def openSearchedResults(searched):
 
 
     download_frame = tk.Frame(root)
-    download_frame.pack(pady=5, fill=tk.BOTH)
+    download_frame.pack( fill=tk.BOTH)
 
     resolution_frame = tk.Frame(download_frame)
     resolution_frame.pack(side="top", padx=20)
@@ -606,10 +607,10 @@ def openSearchedResults(searched):
     quality_combobox.pack(side='right')
 
     download_button = tk.Button(download_frame, text="DOWNLOAD", command=download)
-    download_button.pack(side="top", padx=50)
+    download_button.pack(side="top", pady=(15, 10), anchor="center")
 
     progress_bar = ttk.Progressbar(root, orient='horizontal', length=300, mode='determinate')
-    progress_bar.pack(pady=10)
+    progress_bar.pack()
 
     progress_label = tk.Label(root, text="0.00% downloaded")
     progress_label.pack()
