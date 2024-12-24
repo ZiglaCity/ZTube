@@ -32,7 +32,7 @@ ZTube is a sleek and powerful YouTube video downloader built with Python and Tki
 
 ## **Download Executable**
 For users who prefer a ready-to-use application, download the executable directly from the following link:
-[Download ZTube Executable](<link-to-executable>)
+[Download ZTube Executable](<https://drive.google.com/file/d/1SKbKABLLwS9Ji3s63p-HlhTrz-8cK4_I/view?usp=drive_link>)
 
 ---
 
