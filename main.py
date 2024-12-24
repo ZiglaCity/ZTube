@@ -18,7 +18,7 @@ root = tk.Tk()
 root.geometry(f"{window_width}x{window_height}")
 root.title("Zigla's YouTube Downloader")
 mode = "light"
-
+current_phase = "create_gui"
 
 def set_theme():
     global default_theme_bool, mode
@@ -40,7 +40,7 @@ def apply_theme(mode):
         "button_fg": "#000000",
         "entry_bg": "#ffffff",
         "entry_fg": "#000000",
-        "label_bg": "#f5f5f5",
+        "label_bg": "#f0f0f0",
         "label_fg": "#333333",
         "checkbox_bg": "#f5f5f5",
         "checkbox_fg": "#333333",
@@ -187,16 +187,17 @@ with open("api_key.txt", 'r') as key:
 
 def check_connection():
     global status_label
-    try:
-        response = requests.get('https://www.google.com', timeout=3)
-        response.raise_for_status()
-        if response.status_code == 200:
-            status_label.config(text="Online", fg="green")           
-        else:
-            status_label.config(text="Offline", fg="red")
+    if current_phase == "create_gui":
+        try:
+            response = requests.get('https://www.google.com', timeout=3)
+            response.raise_for_status()
+            if response.status_code == 200:
+                status_label.config(text="Online", fg="green")           
+            else:
+                status_label.config(text="Offline", fg="red")
 
-    except requests.exceptions.RequestException:
-        status_label.config(text="No connection available...", fg="red")
+        except requests.exceptions.RequestException:
+            status_label.config(text="No connection available...", fg="red")
 
     root.after(5000, check_connection)
 
@@ -224,7 +225,6 @@ def search_videos(query):
 
 def update_suggestions():
     query = search_entry.get()
-
     if query:
         videos = search_videos(query)
         print(f"videos found are: {videos}")
@@ -404,7 +404,8 @@ def save_settings():
 
 
 def create_gui():
-    global search_entry, status_label, root
+    global search_entry, status_label, root, current_phase
+    current_phase = "create_gui"
 
     search_frame = tk.Frame(root, pady=20)
     search_frame.pack(fill="x", padx=20)
@@ -442,6 +443,8 @@ def create_gui():
 
 
 def openSettings():
+    global current_phase
+    current_phase = "openSettings"
     for widget in root.winfo_children():
         widget.destroy()
 
@@ -542,10 +545,13 @@ def openSettings():
     save_button.pack(side="bottom", pady=10)
 
     apply_theme(mode)
-    apply_modern_styles()
+    # apply_modern_styles()
 
 
 def openSearchedResults(searched):
+    global current_phase
+    current_phase = "openSearchedResults"
+
     for widget in root.winfo_children():
         widget.destroy()
     
@@ -574,7 +580,7 @@ def openSearchedResults(searched):
     suggestion_frame.pack(pady=10, fill=None, expand=False)
     suggestion_frame.pack_propagate(False)
 
-    canvas = tk.Canvas(suggestion_frame, height=300, width=window_width - 20)
+    canvas = tk.Canvas(suggestion_frame, height=350, width=window_width - 20)
     canvas.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
 
     scrollbar = ttk.Scrollbar(suggestion_frame, orient=tk.VERTICAL, command=canvas.yview)
@@ -620,7 +626,9 @@ def backToMain():
 
 def start_app():
     create_gui()
+    check_connection()
     root.mainloop()
+
 
 
 start_app()
