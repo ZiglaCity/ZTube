@@ -1,5 +1,4 @@
-tkinter==0.1.0
-pytubefix==1.0.0
-google-api-python-client==2.103.0
-requests==2.31.0
-Pillow==9.3.0
+pytubefix==10.10.1
+google-api-python-client==2.198.0
+requests==2.34.2
+Pillow==12.2.0

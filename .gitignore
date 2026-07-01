@@ -1,13 +1,28 @@
-# Ignore my api key 
+# Secrets and local config
 api_key.txt
+.env
+.env.*
+!.env.example
 
-# ignore my build and dist
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.tmp/
+pytest-cache-files-*/
+desktop/tests/.tmp/
+.venv/
+venv/
+
+# Build and packaging output
 dist/
 build/
+*.spec
 
-# ingore my spec file for executable
-ZTube.spec
-
-# ignore my test file
-test.py
-
+# Editor and OS files
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db

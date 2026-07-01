@@ -1,71 +1,143 @@
-# ZTube - Zigla's YouTube Downloader 🚀
+# ZTube
 
-ZTube is a sleek and powerful YouTube video downloader built with Python and Tkinter, designed to offer seamless video downloading experiences. It supports various video resolutions and ensures smooth performance with multithreading.
+ZTube is a desktop YouTube search and download app built with Python and Tkinter.
+The maintained app code lives in `desktop/ztube_desktop/`; the root `main.py`
+file is a small compatibility launcher.
 
----
+## Current Desktop App
 
-## **Key Features**
-- **Multiple Resolutions**: Download videos in different qualities (e.g., 360p, 720p, 1080p).
-- **MP4 Format Support**: Save videos in the widely compatible MP4 format.
-- **Real-time Progress Updates**: Displays the download progress with a dynamic progress bar.
-- **Responsive UI**: Uses threading to prevent freezing or lagging while downloading.
-- **Automatic Online Status Check**: Monitors internet connection status every 5 seconds.
-- **Settings Menu**: Customize download paths, switch between light and dark themes, and view app information.
-- **Error Handling**: Gracefully handles errors with meaningful messages.
-- **Modern GUI Design**: Clean and simple user interface for ease of use.
+- Search YouTube by keyword or paste a direct YouTube video URL.
+- Show 25 search results with titles and asynchronously loaded thumbnails.
+- Keep the UI responsive while searching, loading thumbnails, loading quality
+  options, and downloading.
+- Select a video from the results list with a visible blue highlight.
+- List available progressive MP4 quality options with format, resolution, and
+  estimated file size.
+- Download the selected video to a local folder.
+- Show download state and progress.
+- Persist desktop settings such as download folder and theme mode.
+- Support light and dark themes.
+- Handle missing API keys, unavailable videos, network failures, thumbnail
+  failures, and pytubefix bot-detection errors with user-facing messages.
 
----
+## Repository Layout
 
-## **Installation**
-1. **Clone the Repository**:
-   ```bash
-   git clone <repository-url>
-   cd ZTube
-   ```
+- `main.py`: root launcher for the desktop app.
+- `desktop/ztube_desktop/app.py`: Tkinter desktop UI and app startup.
+- `desktop/ztube_desktop/config.py`: `.env`, environment, and user settings.
+- `desktop/ztube_desktop/services/youtube_search.py`: YouTube Data API search
+  and URL resolution.
+- `desktop/ztube_desktop/services/downloader.py`: pytubefix quality lookup and
+  downloads.
+- `desktop/ztube_desktop/ui/themes.py`: light/dark theme helpers.
+- `desktop/tests/`: unit and smoke tests.
+- `web/`: reserved for a future web version.
 
-2. **Install Dependencies**:
-   ```bash
-   pip install -r requirements.txt
-   ```
+## Requirements
 
----
+- Python 3.13.
+- Tkinter, usually bundled with desktop Python installs.
+- A YouTube Data API key for search.
 
-## **Download Executable**
-For users who prefer a ready-to-use application, download the executable directly from the following link:
-[Download ZTube Executable](<https://drive.google.com/file/d/1SKbKABLLwS9Ji3s63p-HlhTrz-8cK4_I/view?usp=drive_link>)
+Install runtime dependencies:
 
----
+```powershell
+pip install -r requirements.txt
+```
 
-## **How to Use**
-1. **Search for Videos**: Enter keywords in the search bar and select your desired video.
-2. **Select Quality**: Choose a resolution from the dropdown menu.
-3. **Download**: Click the download button to start.
-4. **Monitor Progress**: Watch the real-time progress bar during downloads.
-5. **Access Settings**: Customize preferences such as download path, switch themes, and learn more about the app and author.
+For development checks:
 
----
+```powershell
+pip install -r requirements-dev.txt
+```
 
-## **Future Updates**
-- **MP3 Download Support**: Option to download audio-only files in MP3 format.
-- **Multiple Downloads**: Add a queue system for batch downloading.
-- **Enhanced Search Suggestions**: Improve search results with auto-complete.
+## Configuration
 
----
+Create a local `.env` file from the example:
 
-## **Contributing**
-Contributions are welcome! Feel free to fork the repository and submit pull requests.
+```powershell
+Copy-Item .env.example .env
+```
 
----
+Set your YouTube Data API key:
 
-## **License**
-This project is licensed under the MIT License.
+```text
+YOUTUBE_API_KEY=your_youtube_data_api_key_here
+```
 
----
+You can also set the key in your shell instead of using `.env`:
 
-### **Author**
-**Zigla City** - Tech Enthusiast | Python Developer | AI Lover 💻⚡️
+```powershell
+$env:YOUTUBE_API_KEY = "your_youtube_data_api_key_here"
+```
 
----
+Some videos may trigger YouTube bot detection when pytubefix reads stream
+metadata. ZTube tries multiple pytubefix clients first. If YouTube still blocks
+the request, optional local PoToken values can be provided:
 
-Enjoy using ZTube and happy downloading! 🎥✨
+```text
+YOUTUBE_VISITOR_DATA=your_visitor_data_here
+YOUTUBE_PO_TOKEN=your_po_token_here
+```
 
+Never commit real API keys, visitor data, PoToken values, OAuth/cache files, or
+local `.env` files.
+
+Desktop settings are stored outside the repository at:
+
+```text
+~/.ztube/desktop-settings.json
+```
+
+## Run
+
+```powershell
+python main.py
+```
+
+or:
+
+```powershell
+python -m desktop.ztube_desktop
+```
+
+## Checks
+
+Fast local verification:
+
+```powershell
+python -m py_compile main.py desktop\ztube_desktop\app.py desktop\ztube_desktop\config.py desktop\ztube_desktop\services\youtube_search.py desktop\ztube_desktop\services\downloader.py desktop\ztube_desktop\ui\themes.py
+ruff check main.py desktop
+pytest
+```
+
+The repository still contains Black configuration for release/CI formatting
+checks, but day-to-day cleanup work currently uses compile, Ruff, and pytest.
+
+## Current Limitations
+
+- High-resolution downloads above the progressive MP4 set usually require
+  separate video/audio streams and ffmpeg merging. ZTube currently downloads
+  progressive MP4 streams only.
+- MP3/audio-only conversion is not implemented yet.
+- Download cancellation is not implemented; the UI shows an in-progress state
+  while the worker runs.
+- The desktop UI is still Tkinter-based and has remaining controller/widget
+  refactor work tracked in `TODO.md`.
+- Packaged executable releases are not published yet.
+
+## Future Web Version
+
+The future web app will live separately under `web/`. Its architecture is not
+chosen yet. Any web implementation must keep API keys server-side only; private
+keys must never be exposed in browser JavaScript, client bundles, public env
+files, logs, screenshots, or error payloads.
+
+## Legal Notice
+
+Use ZTube responsibly. Respect YouTube's terms, copyright law, and local rules.
+Only download content when you have the right to do so.
+
+## License
+
+This project is licensed under the MIT License. See `LICENSE`.
