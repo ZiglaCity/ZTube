@@ -54,7 +54,7 @@ This is the working roadmap for turning ZTube from an old personal prototype int
 - [x] Introduce type hints for service functions and shared state.
 - [x] Add a logging setup and remove leftover debug `print` calls.
 - [x] Pick consistent naming: `openSettings`/`openSearchedResults` should become snake_case.
-- [x] Add project lint/format configuration and lint with `ruff`.
+- [x] Add project lint configuration and lint with `ruff`.
 - [x] Create a project-local virtual environment so latest ZTube dependencies do not conflict with unrelated global Python packages.
 
 ## Phase 3: Improve The UI

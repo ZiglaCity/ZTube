@@ -24,12 +24,8 @@ jobs:
           pip install -r requirements.txt
           pip install -r requirements-dev.txt
 
-      - name: Format check
-        run: black --check main.py desktop
-
       - name: Lint
         run: ruff check main.py desktop
 
       - name: Test
         run: pytest
-

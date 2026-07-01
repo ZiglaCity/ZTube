@@ -47,9 +47,7 @@ ruff check main.py desktop
 pytest
 ```
 
-The project still has Black configuration for formatting consistency and CI
-release checks. Avoid mixing formatting-only churn into feature or bug-fix
-changes.
+Avoid mixing formatting-only churn into feature or bug-fix changes.
 
 ## Pull Request Expectations
 

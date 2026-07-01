@@ -111,8 +111,7 @@ ruff check main.py desktop
 pytest
 ```
 
-The repository still contains Black configuration for release/CI formatting
-checks, but day-to-day cleanup work currently uses compile, Ruff, and pytest.
+The enforced local and CI checks are compile, Ruff, and pytest.
 
 ## Current Limitations
 

@@ -5,20 +5,6 @@ addopts = [
 ]
 testpaths = ["desktop/tests"]
 
-[tool.black]
-line-length = 88
-target-version = ["py313"]
-extend-exclude = '''
-/(
-  \.git
-  | \.venv
-  | \.tmp
-  | pytest-cache-files-.*
-  | build
-  | dist
-)/
-'''
-
 [tool.ruff]
 line-length = 88
 target-version = "py313"
